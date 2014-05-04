@@ -18,13 +18,13 @@ pop eax
 int 0x80
 
 ;; EXECVE
-; Cell two of array
+; Push array cell #2
 xor eax, eax
 push eax
 push word `-u`
 mov ecx, esp
 
-; Cell one of array
+; Push array cell #1
 push eax
 push byte `d`
 push word `/i`
@@ -32,22 +32,15 @@ push `/bin`
 push `/usr`
 mov ebx, esp
 
-; Create envp and the null pointer of argc
+; Push envp and null pointer of argc
 push eax
 mov edx, esp
 
-; Create argc
+; Push rest of argc
 push ecx
 push ebx
 mov ecx, esp
 
-; Perform execve with /usr/bin/id -u
-push byte SYS_execve
-pop eax
-int 0x80
-
-; Exit the program
-xor ebx, ebx
-push byte SYS_exit
-pop eax
+; EAX = 0; Perform execve with /usr/bin/id -u
+mov al, SYS_execve
 int 0x80
