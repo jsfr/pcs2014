@@ -32,15 +32,15 @@ push `/bin`
 push `/usr`
 mov ebx, esp
 
-; Push envp and null pointer of argc
+; Push envp and null pointer of argv
 push eax
 mov edx, esp
 
-; Push rest of argc
+; Push rest of argv
 push ecx
 push ebx
 mov ecx, esp
 
-; EAX = 0; Perform execve with /usr/bin/id -u
+; eax = 0; Perform execve with /usr/bin/id -u
 mov al, SYS_execve
 int 0x80
