@@ -1,0 +1,61 @@
+/lib/ld-linux.so.2
+libreadline.so.6
+_ITM_deregisterTMCloneTable
+__gmon_start__
+_Jv_RegisterClasses
+_ITM_registerTMCloneTable
+_init
+readline
+_fini
+libc.so.6
+_IO_stdin_used
+fflush
+exit
+_IO_putc
+puts
+printf
+strtol
+strlen
+stdout
+usleep
+__libc_start_main
+_edata
+__bss_start
+_end
+GLIBC_2.0
+PTRh
+PPSh
+UWVS
+[^_]
+    
+You have found enlightenment!
+You are now dead.
+You look around.
+This room is boring.
+You decide to keep moving.
+Edinburgh Fringe.
+public vote.
+number and I'll tell it...
+Hahahaha, I know, right!
+Congratulations!
+You have won the game.
+You even "found" the bicycle!
+Here is your prize:
+Welcome to PCS-mud.
+You fell of the edge of the earth.
+This room is quite boring -- however there is an old bicycle in the corner.
+I've seen that rusty old bicycle three times now.
+I don't think anybody will miss it.
+A joke about passwords has won a competition for the funniest joke at the
+Stand-up comedian Nick Helm was judged to have the best joke of the festival,
+beating a number of better-known acts. 10 comedy critics spent two weeks hunting
+for the best jokes of the Edinburgh Fringe, putting their top 30 shortlist to a
+You're probably wondering what this joke is by now, right? Give me the magic
+  "The journey is the reward."
+               -- Chinese proverb
+Here you will learn to respect the sacred and ancient art that is reverse engineering.
+Come back here when you're ready.
+You are now in room (%u,%u)
+Where do you want to go (N/S/E/W)?
+I do not know the direction '%s'.
+;*2$"
