@@ -1,0 +1,28 @@
+Which file format is it?
+========================
+
+The file is a LSB executable of the ELF format, for 32-bit on the Intel 80386 architecture. 
+
+
+What does the program do?
+=========================
+
+TODO!
+
+
+What are the different ways the program can end?
+================================================
+
+The program ends when it at some point calls the label <exit@plt>. This is done from three different labels, and thus the program can end in three different ways:
+
+    - By falling of the edge of the earth and dying. Label: <edge_of_the_earth>
+    - By winning the game. Label: <win>
+    - By finding the secret win. Label: <secret_win>
+
+The label <secret_win> however when executed also allows the user to submit a password to hear a joke, thus this is actually two different endnings, one where you get the joke and one where you do not.
+
+
+How do you get it to end in each way?
+=====================================
+
+TODO!
