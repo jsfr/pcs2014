@@ -89,23 +89,42 @@ Disassembly of section .plt:
 Disassembly of section .text:
 
 08048610 <main>:
+
+; setup stack frame
  8048610:	55                   	push   ebp
  8048611:	ba 02 00 00 00       	mov    edx,0x2
  8048616:	89 e5                	mov    ebp,esp
  8048618:	83 e4 f0             	and    esp,0xfffffff0
  804861b:	83 ec 10             	sub    esp,0x10
+
+; eax = 2
  804861e:	b8 02 00 00 00       	mov    eax,0x2
+
+; some_var1 (804b048) = 2
  8048623:	c7 05 48 b0 04 08 02 	mov    DWORD PTR ds:0x804b048,0x2
  804862a:	00 00 00 
+
+; some_var2 (804b04c) = 2
  804862d:	c7 05 4c b0 04 08 02 	mov    DWORD PTR ds:0x804b04c,0x2
  8048634:	00 00 00 
+
+; some_var3 (804b03c) = 0
  8048637:	c7 05 3c b0 04 08 00 	mov    DWORD PTR ds:0x804b03c,0x0
  804863e:	00 00 00 
+
+; some_var4 (804b044) = 0
  8048641:	c7 05 44 b0 04 08 00 	mov    DWORD PTR ds:0x804b044,0x0
  8048648:	00 00 00 
+
+; some_var5 (804b040) = 0
  804864b:	c7 05 40 b0 04 08 00 	mov    DWORD PTR ds:0x804b040,0x0
  8048652:	00 00 00 
+
+; ??
  8048655:	8d 76 00             	lea    esi,[esi+0x0]
+
+; LABEL = some_label1
+; ??
  8048658:	8d 04 c2             	lea    eax,[edx+eax*8]
  804865b:	ff 14 85 80 95 04 08 	call   DWORD PTR [eax*4+0x8049580]
  8048662:	e8 87 09 00 00       	call   8048fee <move_next_room>
@@ -117,8 +136,13 @@ Disassembly of section .text:
  8048680:	e8 cb fe ff ff       	call   8048550 <printf@plt>
  8048685:	a1 4c b0 04 08       	mov    eax,ds:0x804b04c
  804868a:	8b 15 48 b0 04 08    	mov    edx,DWORD PTR ds:0x804b048
+
+; jump to some_label1 (8048658)
  8048690:	eb c6                	jmp    8048658 <main+0x48>
+
+; nop
  8048692:	66 90                	xchg   ax,ax
+
 
 08048694 <_start>:
  8048694:	31 ed                	xor    ebp,ebp
@@ -257,11 +281,23 @@ Disassembly of section .text:
  80487fc:	66 90                	xchg   ax,ax
  80487fe:	66 90                	xchg   ax,ax
 
+;; START OF SECTION: Edge of the earth rooms ;;
+; All the rooms in this section does the exact same thing, thus only the first
+; has been commented.
+
 08048800 <room_7_7>:
+
+; setup the stack frame
  8048800:	55                   	push   ebp
  8048801:	89 e5                	mov    ebp,esp
+
+; make room on the stack
  8048803:	83 ec 08             	sub    esp,0x8
+
+; call the function to end the game
  8048806:	e8 c5 ff ff ff       	call   80487d0 <edge_of_the_earth>
+
+; nops
  804880b:	66 90                	xchg   ax,ax
  804880d:	66 90                	xchg   ax,ax
  804880f:	90                   	nop
@@ -508,6 +544,9 @@ Disassembly of section .text:
  80489bb:	66 90                	xchg   ax,ax
  80489bd:	66 90                	xchg   ax,ax
  80489bf:	90                   	nop
+
+;; END OF SECTION: Edge of the earth rooms ;;
+
 
 080489c0 <boring_room>:
  80489c0:	55                   	push   ebp
