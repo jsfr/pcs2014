@@ -90,9 +90,13 @@ Disassembly of section .text:
 
 08048610 <main>:
 
-; setup stack frame
+; push old stack frame
  8048610:	55                   	push   ebp
+
+; edx = 2
  8048611:	ba 02 00 00 00       	mov    edx,0x2
+ 
+; setup stack frame
  8048616:	89 e5                	mov    ebp,esp
  8048618:	83 e4 f0             	and    esp,0xfffffff0
  804861b:	83 ec 10             	sub    esp,0x10
@@ -120,30 +124,44 @@ Disassembly of section .text:
  804864b:	c7 05 40 b0 04 08 00 	mov    DWORD PTR ds:0x804b040,0x0
  8048652:	00 00 00 
 
-; ??
+; ???
  8048655:	8d 76 00             	lea    esi,[esi+0x0]
 
-; LABEL = some_label1
-; ??
+; LABEL = main_loop, eax = [2+2*8] = [0x12]
  8048658:	8d 04 c2             	lea    eax,[edx+eax*8]
+
+; call [0x12*4 + 0x8049580] = ??? (somewhere in memory)
  804865b:	ff 14 85 80 95 04 08 	call   DWORD PTR [eax*4+0x8049580]
+
+; call <move_next_room>, handles moving between rooms
  8048662:	e8 87 09 00 00       	call   8048fee <move_next_room>
+
+; restore eax = 2
  8048667:	a1 48 b0 04 08       	mov    eax,ds:0x804b048
+
+; ???
  804866c:	c7 04 24 58 95 04 08 	mov    DWORD PTR [esp],0x8049558
  8048673:	89 44 24 08          	mov    DWORD PTR [esp+0x8],eax
+
+; restore eax = 2
  8048677:	a1 4c b0 04 08       	mov    eax,ds:0x804b04c
+
+; ???
  804867c:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
  8048680:	e8 cb fe ff ff       	call   8048550 <printf@plt>
+
+; restore eax = 2 and edx = 2
  8048685:	a1 4c b0 04 08       	mov    eax,ds:0x804b04c
  804868a:	8b 15 48 b0 04 08    	mov    edx,DWORD PTR ds:0x804b048
 
-; jump to some_label1 (8048658)
+; jump to main_loop (8048658)
  8048690:	eb c6                	jmp    8048658 <main+0x48>
 
 ; nop
  8048692:	66 90                	xchg   ax,ax
 
 
+; ???
 08048694 <_start>:
  8048694:	31 ed                	xor    ebp,ebp
  8048696:	5e                   	pop    esi
@@ -165,6 +183,7 @@ Disassembly of section .text:
  80486bc:	66 90                	xchg   ax,ax
  80486be:	66 90                	xchg   ax,ax
 
+; ???
 080486c0 <deregister_tm_clones>:
  80486c0:	b8 53 b0 04 08       	mov    eax,0x804b053
  80486c5:	2d 50 b0 04 08       	sub    eax,0x804b050
@@ -184,6 +203,7 @@ Disassembly of section .text:
  80486eb:	90                   	nop
  80486ec:	8d 74 26 00          	lea    esi,[esi+eiz*1+0x0]
 
+; ???
 080486f0 <register_tm_clones>:
  80486f0:	b8 50 b0 04 08       	mov    eax,0x804b050
  80486f5:	2d 50 b0 04 08       	sub    eax,0x804b050
@@ -208,6 +228,7 @@ Disassembly of section .text:
  8048728:	90                   	nop
  8048729:	8d b4 26 00 00 00 00 	lea    esi,[esi+eiz*1+0x0]
 
+; ???
 08048730 <__do_global_dtors_aux>:
  8048730:	80 3d 64 b0 04 08 00 	cmp    BYTE PTR ds:0x804b064,0x0
  8048737:	75 13                	jne    804874c <__do_global_dtors_aux+0x1c>
@@ -220,6 +241,7 @@ Disassembly of section .text:
  804874c:	f3 c3                	repz ret 
  804874e:	66 90                	xchg   ax,ax
 
+; ???
 08048750 <frame_dummy>:
  8048750:	a1 08 af 04 08       	mov    eax,ds:0x804af08
  8048755:	85 c0                	test   eax,eax
@@ -238,6 +260,7 @@ Disassembly of section .text:
  804877c:	66 90                	xchg   ax,ax
  804877e:	66 90                	xchg   ax,ax
 
+; ???
 08048780 <say>:
  8048780:	55                   	push   ebp
  8048781:	89 e5                	mov    ebp,esp
@@ -255,6 +278,7 @@ Disassembly of section .text:
  80487ad:	66 90                	xchg   ax,ax
  80487af:	90                   	nop
 
+; ???
 080487b0 <room_4_3>:
  80487b0:	55                   	push   ebp
  80487b1:	89 e5                	mov    ebp,esp
@@ -267,6 +291,7 @@ Disassembly of section .text:
  80487cd:	c3                   	ret    
  80487ce:	66 90                	xchg   ax,ax
 
+; ???
 080487d0 <edge_of_the_earth>:
  80487d0:	55                   	push   ebp
  80487d1:	89 e5                	mov    ebp,esp
@@ -547,7 +572,7 @@ Disassembly of section .text:
 
 ;; END OF SECTION: Edge of the earth rooms ;;
 
-
+; ???
 080489c0 <boring_room>:
  80489c0:	55                   	push   ebp
  80489c1:	89 e5                	mov    ebp,esp
@@ -563,6 +588,7 @@ Disassembly of section .text:
  80489ec:	66 90                	xchg   ax,ax
  80489ee:	66 90                	xchg   ax,ax
 
+; ???
 080489f0 <room_5_1>:
  80489f0:	55                   	push   ebp
  80489f1:	89 e5                	mov    ebp,esp
@@ -597,6 +623,10 @@ Disassembly of section .text:
  8048a6b:	c3                   	ret    
  8048a6c:	66 90                	xchg   ax,ax
  8048a6e:	66 90                	xchg   ax,ax
+
+;; START OF SECTION: Boring rooms ;;
+; All the rooms in this section does the exact same thing, thus only the first
+; has been commented.
 
 08048a70 <room_6_6>:
  8048a70:	55                   	push   ebp
@@ -928,6 +958,10 @@ Disassembly of section .text:
  8048c7d:	66 90                	xchg   ax,ax
  8048c7f:	90                   	nop
 
+;; END OF SECTION: Boring rooms ;;
+
+
+; ???
 08048c80 <secret_win>:
  8048c80:	55                   	push   ebp
  8048c81:	89 e5                	mov    ebp,esp
@@ -1094,6 +1128,7 @@ Disassembly of section .text:
  8048f2c:	66 90                	xchg   ax,ax
  8048f2e:	66 90                	xchg   ax,ax
 
+; ???
 08048f30 <win>:
  8048f30:	55                   	push   ebp
  8048f31:	89 e5                	mov    ebp,esp
@@ -1108,6 +1143,7 @@ Disassembly of section .text:
  8048f5c:	66 90                	xchg   ax,ax
  8048f5e:	66 90                	xchg   ax,ax
 
+; ???
 08048f60 <room_2_2>:
  8048f60:	55                   	push   ebp
  8048f61:	89 e5                	mov    ebp,esp
@@ -1144,6 +1180,7 @@ Disassembly of section .text:
  8048fe7:	e8 94 f7 ff ff       	call   8048780 <say>
  8048fec:	eb a3                	jmp    8048f91 <room_2_2+0x31>
 
+; ???
 08048fee <move_next_room>:
  8048fee:	55                   	push   ebp
  8048fef:	89 e5                	mov    ebp,esp
@@ -1192,6 +1229,7 @@ Disassembly of section .text:
  804906d:	66 90                	xchg   ax,ax
  804906f:	90                   	nop
 
+; ???
 08049070 <__libc_csu_init>:
  8049070:	55                   	push   ebp
  8049071:	57                   	push   edi
@@ -1240,15 +1278,18 @@ Disassembly of section .text:
  80490de:	90                   	nop
  80490df:	90                   	nop
 
+; ???
 080490e0 <__libc_csu_fini>:
  80490e0:	f3 c3                	repz ret 
 
+; ???
 080490e2 <__i686.get_pc_thunk.bx>:
  80490e2:	8b 1c 24             	mov    ebx,DWORD PTR [esp]
  80490e5:	c3                   	ret    
 
 Disassembly of section .fini:
 
+; ???
 080490e8 <_fini>:
  80490e8:	53                   	push   ebx
  80490e9:	83 ec 08             	sub    esp,0x8
