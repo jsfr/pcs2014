@@ -1,14 +1,15 @@
-Which file format is it?
-========================
+1 Which file format is it?
+==========================
 
-The file is a LSB executable of the ELF format, for 32-bit on the Intel 80386 architecture. 
+The file is a LSB executable of the ELF format, for 32-bit on the Intel 80386
+architecture.
 
 
-What does the program do?
-=========================
+2.1 What does the program do?
+=============================
 
 The program is a game consisting of a series of rooms. These are laid out in a
-7-by-7 grid as illustrated in the ASCII figure below:
+8-by-8 grid as illustrated in the ASCII figure below:
 
       +-----+-----+-----+-----+-----+-----+-----+-----+
       |     |     |     |     |     |     |     |     |
@@ -45,11 +46,18 @@ The program is a game consisting of a series of rooms. These are laid out in a
       +-----+-----+-----+-----+-----+-----+-----+-----+
          0     1     2     3     4     5     6     7
 
-TODO!
+The player starts in the room (2,2) and can move around to other rooms by
+issuing a command one of the commands 'N', 'S', 'E' or 'W'. Any unmarked room 
+is a boring room, meaning that nothing special happens if the player moves 
+here. Furthermore the game has three other types of rooms, the edge rooms 
+where the player falls of the edge of the earth and dies, the room where 
+enlightment is found, and the room where a bike can be found.
+
+Commands a given by the player on the commandline.
 
 
-What are the different ways the program can end?
-================================================
+2.2 What are the different ways the program can end?
+====================================================
 
 The program ends when it at some point calls the label <exit@plt>. This is done
 from three different labels, and thus the program can end in three different
@@ -63,7 +71,50 @@ The label <secret_win> however when executed also allows the user to submit a
 password to hear a joke, thus this is actually two different endnings, one where you get the joke and one where you do not.
 
 
-How do you get it to end in each way?
-=====================================
+2.3 How do you get it to end in each way?
+=========================================
 
-TODO!
+## Ending the game by dying
+
+To reach the label <edge_of_the_earth> which results in the player dying and
+the game ending, one has to reach a edge room. These rooms are the ones marked
+with a 'D' on the overview from question 2.1.
+
+
+## Ending the game by winning
+
+To reach the label <win> which results in the player winning and the game
+ending, one has to first reach the room (4,3) where enlightment is found. This sets a variable to 1. Afterwards one has to go back to the room (2,2). Here
+the same variable is checked, and if it is one the program jumps to the label
+<win> thus ending the game.
+
+Notice that one of course must no fall of the edge during this, and also must 
+not trigger the secret win which is described below.
+
+
+## Ending the game by the secret win (finding the bike)
+
+To reach the label <secret_win> which results in the player winning, with some 
+extra text, and the possibility of being told a joke, one has to once again 
+find the room (4,3). However furthermore one also has to visit the room with 
+the bike (5,1) at least three times (three times will suffice and any extra 
+visits will not change the outcome). In which order these three visits to 
+(5,1) and the visit to (4,3) is made, is irrelevant. Apart from the variable 
+being set when visiting (4,3), another variable is set after the third visit 
+to (5,1). Finally the player must go back to (2,2) where the program will jump 
+to the label <secret_win>.
+
+At this label a joke is pushed onto the stack, and the player is prompted for a
+magic number, which when entered correctly gives the joke:
+    
+    "I needed a password eight characters long so I picked
+     Snow White and the Seven Dwarves."
+
+The number is 42. If a incorrect number is given, the program reads some
+random memory and prints that as the joke. Giving mostly unprintable
+characters.
+
+Notice as with the regular win one must of course not die at
+at any point before reaching (2,2) in the end, as this would end the game.
+Furthermore, one must not visit (2,2) after visiting (4,3) but before visiting
+(5,1) three times, as this would result in the game ending by a regular win.
