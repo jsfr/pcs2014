@@ -1,91 +1,6 @@
 
 pcsmud:     file format elf32-i386
 
-
-Disassembly of section .init:
-
-08048514 <_init>:
- 8048514:	53                   	push   ebx
- 8048515:	83 ec 08             	sub    esp,0x8
- 8048518:	e8 00 00 00 00       	call   804851d <_init+0x9>
- 804851d:	5b                   	pop    ebx
- 804851e:	81 c3 e3 2a 00 00    	add    ebx,0x2ae3
- 8048524:	8b 83 fc ff ff ff    	mov    eax,DWORD PTR [ebx-0x4]
- 804852a:	85 c0                	test   eax,eax
- 804852c:	74 05                	je     8048533 <_init+0x1f>
- 804852e:	e8 8d 00 00 00       	call   80485c0 <__gmon_start__@plt>
- 8048533:	83 c4 08             	add    esp,0x8
- 8048536:	5b                   	pop    ebx
- 8048537:	c3                   	ret    
-
-Disassembly of section .plt:
-
-08048540 <printf@plt-0x10>:
- 8048540:	ff 35 04 b0 04 08    	push   DWORD PTR ds:0x804b004
- 8048546:	ff 25 08 b0 04 08    	jmp    DWORD PTR ds:0x804b008
- 804854c:	00 00                	add    BYTE PTR [eax],al
-	...
-
-08048550 <printf@plt>:
- 8048550:	ff 25 0c b0 04 08    	jmp    DWORD PTR ds:0x804b00c
- 8048556:	68 00 00 00 00       	push   0x0
- 804855b:	e9 e0 ff ff ff       	jmp    8048540 <_init+0x2c>
-
-08048560 <fflush@plt>:
- 8048560:	ff 25 10 b0 04 08    	jmp    DWORD PTR ds:0x804b010
- 8048566:	68 08 00 00 00       	push   0x8
- 804856b:	e9 d0 ff ff ff       	jmp    8048540 <_init+0x2c>
-
-08048570 <sleep@plt>:
- 8048570:	ff 25 14 b0 04 08    	jmp    DWORD PTR ds:0x804b014
- 8048576:	68 10 00 00 00       	push   0x10
- 804857b:	e9 c0 ff ff ff       	jmp    8048540 <_init+0x2c>
-
-08048580 <_IO_putc@plt>:
- 8048580:	ff 25 18 b0 04 08    	jmp    DWORD PTR ds:0x804b018
- 8048586:	68 18 00 00 00       	push   0x18
- 804858b:	e9 b0 ff ff ff       	jmp    8048540 <_init+0x2c>
-
-08048590 <readline@plt>:
- 8048590:	ff 25 1c b0 04 08    	jmp    DWORD PTR ds:0x804b01c
- 8048596:	68 20 00 00 00       	push   0x20
- 804859b:	e9 a0 ff ff ff       	jmp    8048540 <_init+0x2c>
-
-080485a0 <usleep@plt>:
- 80485a0:	ff 25 20 b0 04 08    	jmp    DWORD PTR ds:0x804b020
- 80485a6:	68 28 00 00 00       	push   0x28
- 80485ab:	e9 90 ff ff ff       	jmp    8048540 <_init+0x2c>
-
-080485b0 <puts@plt>:
- 80485b0:	ff 25 24 b0 04 08    	jmp    DWORD PTR ds:0x804b024
- 80485b6:	68 30 00 00 00       	push   0x30
- 80485bb:	e9 80 ff ff ff       	jmp    8048540 <_init+0x2c>
-
-080485c0 <__gmon_start__@plt>:
- 80485c0:	ff 25 28 b0 04 08    	jmp    DWORD PTR ds:0x804b028
- 80485c6:	68 38 00 00 00       	push   0x38
- 80485cb:	e9 70 ff ff ff       	jmp    8048540 <_init+0x2c>
-
-080485d0 <exit@plt>:
- 80485d0:	ff 25 2c b0 04 08    	jmp    DWORD PTR ds:0x804b02c
- 80485d6:	68 40 00 00 00       	push   0x40
- 80485db:	e9 60 ff ff ff       	jmp    8048540 <_init+0x2c>
-
-080485e0 <strlen@plt>:
- 80485e0:	ff 25 30 b0 04 08    	jmp    DWORD PTR ds:0x804b030
- 80485e6:	68 48 00 00 00       	push   0x48
- 80485eb:	e9 50 ff ff ff       	jmp    8048540 <_init+0x2c>
-
-080485f0 <__libc_start_main@plt>:
- 80485f0:	ff 25 34 b0 04 08    	jmp    DWORD PTR ds:0x804b034
- 80485f6:	68 50 00 00 00       	push   0x50
- 80485fb:	e9 40 ff ff ff       	jmp    8048540 <_init+0x2c>
-
-08048600 <strtol@plt>:
- 8048600:	ff 25 38 b0 04 08    	jmp    DWORD PTR ds:0x804b038
- 8048606:	68 58 00 00 00       	push   0x58
- 804860b:	e9 30 ff ff ff       	jmp    8048540 <_init+0x2c>
-
 Disassembly of section .text:
 
 08048610 <main>:
@@ -112,22 +27,22 @@ Disassembly of section .text:
  804862d:	c7 05 4c b0 04 08 02 	mov    DWORD PTR ds:0x804b04c,0x2
  8048634:	00 00 00 
 
-; some_var3 (804b03c) = 0
+; set VAR_SECRET_WIN (804b03c) = 0
  8048637:	c7 05 3c b0 04 08 00 	mov    DWORD PTR ds:0x804b03c,0x0
  804863e:	00 00 00 
 
-; some_var4 (804b044) = 0
+; set VAR_WIN (804b044) = 0
  8048641:	c7 05 44 b0 04 08 00 	mov    DWORD PTR ds:0x804b044,0x0
  8048648:	00 00 00 
 
-; some_var5 (804b040) = 0
+; VAR_SEEN_BIKE (804b040) = 0
  804864b:	c7 05 40 b0 04 08 00 	mov    DWORD PTR ds:0x804b040,0x0
  8048652:	00 00 00 
 
-; ???
+; nop
  8048655:	8d 76 00             	lea    esi,[esi+0x0]
 
-; LABEL = main_loop, eax = [2+2*8] = [0x12]
+; LABEL: MAIN_LOOP, eax = [2+2*8] = [0x12]
  8048658:	8d 04 c2             	lea    eax,[edx+eax*8]
 
 ; call [0x12*4 + 0x8049580] = ??? (somewhere in memory)
@@ -139,51 +54,73 @@ Disassembly of section .text:
 ; restore eax = 2
  8048667:	a1 48 b0 04 08       	mov    eax,ds:0x804b048
 
-; ???
+; store address to intro text on stack
  804866c:	c7 04 24 58 95 04 08 	mov    DWORD PTR [esp],0x8049558
+
+; store eax on stack
  8048673:	89 44 24 08          	mov    DWORD PTR [esp+0x8],eax
 
 ; restore eax = 2
  8048677:	a1 4c b0 04 08       	mov    eax,ds:0x804b04c
 
-; ???
+; store eax on stack
  804867c:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
+
+; call printf
  8048680:	e8 cb fe ff ff       	call   8048550 <printf@plt>
 
 ; restore eax = 2 and edx = 2
  8048685:	a1 4c b0 04 08       	mov    eax,ds:0x804b04c
  804868a:	8b 15 48 b0 04 08    	mov    edx,DWORD PTR ds:0x804b048
 
-; jump to main_loop (8048658)
+; jump to MAIN_LOOP (8048658)
  8048690:	eb c6                	jmp    8048658 <main+0x48>
 
 ; nop
  8048692:	66 90                	xchg   ax,ax
 
 
-; ???
 08048694 <_start>:
+
+; set ebp = 0
  8048694:	31 ed                	xor    ebp,ebp
+
+; ???, possibly some magic memory aligning 
  8048696:	5e                   	pop    esi
  8048697:	89 e1                	mov    ecx,esp
  8048699:	83 e4 f0             	and    esp,0xfffffff0
  804869c:	50                   	push   eax
  804869d:	54                   	push   esp
  804869e:	52                   	push   edx
+
+; push address of <__libc_csu_fini>
  804869f:	68 e0 90 04 08       	push   0x80490e0
+
+; push address of <__libc_csu_init>
  80486a4:	68 70 90 04 08       	push   0x8049070
+
+; ???
  80486a9:	51                   	push   ecx
  80486aa:	56                   	push   esi
+
+; push address of <main>
  80486ab:	68 10 86 04 08       	push   0x8048610
+
+; call libc_start_main
  80486b0:	e8 3b ff ff ff       	call   80485f0 <__libc_start_main@plt>
+
+; halt
  80486b5:	f4                   	hlt    
+
+; nops
  80486b6:	66 90                	xchg   ax,ax
  80486b8:	66 90                	xchg   ax,ax
  80486ba:	66 90                	xchg   ax,ax
  80486bc:	66 90                	xchg   ax,ax
  80486be:	66 90                	xchg   ax,ax
 
-; ???
+
+; NOT IMPORTANT
 080486c0 <deregister_tm_clones>:
  80486c0:	b8 53 b0 04 08       	mov    eax,0x804b053
  80486c5:	2d 50 b0 04 08       	sub    eax,0x804b050
@@ -203,7 +140,8 @@ Disassembly of section .text:
  80486eb:	90                   	nop
  80486ec:	8d 74 26 00          	lea    esi,[esi+eiz*1+0x0]
 
-; ???
+
+; NOT IMPORTANT
 080486f0 <register_tm_clones>:
  80486f0:	b8 50 b0 04 08       	mov    eax,0x804b050
  80486f5:	2d 50 b0 04 08       	sub    eax,0x804b050
@@ -228,7 +166,8 @@ Disassembly of section .text:
  8048728:	90                   	nop
  8048729:	8d b4 26 00 00 00 00 	lea    esi,[esi+eiz*1+0x0]
 
-; ???
+
+; NOT IMPORTANT
 08048730 <__do_global_dtors_aux>:
  8048730:	80 3d 64 b0 04 08 00 	cmp    BYTE PTR ds:0x804b064,0x0
  8048737:	75 13                	jne    804874c <__do_global_dtors_aux+0x1c>
@@ -241,7 +180,8 @@ Disassembly of section .text:
  804874c:	f3 c3                	repz ret 
  804874e:	66 90                	xchg   ax,ax
 
-; ???
+
+; NOT IMPORTANT
 08048750 <frame_dummy>:
  8048750:	a1 08 af 04 08       	mov    eax,ds:0x804af08
  8048755:	85 c0                	test   eax,eax
@@ -260,51 +200,100 @@ Disassembly of section .text:
  804877c:	66 90                	xchg   ax,ax
  804877e:	66 90                	xchg   ax,ax
 
-; ???
+
 08048780 <say>:
+
+; setup stack frame
  8048780:	55                   	push   ebp
  8048781:	89 e5                	mov    ebp,esp
+
+; make room on stack
  8048783:	83 ec 18             	sub    esp,0x18
+
+; move esp to 'empty text'
  8048786:	c7 04 24 04 91 04 08 	mov    DWORD PTR [esp],0x8049104
+
+; call printf
  804878d:	e8 be fd ff ff       	call   8048550 <printf@plt>
+
+; ???
  8048792:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
  8048795:	89 04 24             	mov    DWORD PTR [esp],eax
  8048798:	e8 13 fe ff ff       	call   80485b0 <puts@plt>
+
+; call sleep
  804879d:	c7 04 24 01 00 00 00 	mov    DWORD PTR [esp],0x1
  80487a4:	e8 c7 fd ff ff       	call   8048570 <sleep@plt>
+
+; re-establish old ebp and return
  80487a9:	c9                   	leave  
  80487aa:	c3                   	ret    
+
+; nops
  80487ab:	66 90                	xchg   ax,ax
  80487ad:	66 90                	xchg   ax,ax
  80487af:	90                   	nop
 
-; ???
+
 080487b0 <room_4_3>:
+
+; setup stack frame
  80487b0:	55                   	push   ebp
  80487b1:	89 e5                	mov    ebp,esp
+
+; make room on stack
  80487b3:	83 ec 18             	sub    esp,0x18
+
+; move esp to 'Enlightment' text
  80487b6:	c7 04 24 09 91 04 08 	mov    DWORD PTR [esp],0x8049109
+
+; call say to print text
  80487bd:	e8 be ff ff ff       	call   8048780 <say>
+
+; set VAR_WIN (804b044) = 1
  80487c2:	c7 05 44 b0 04 08 01 	mov    DWORD PTR ds:0x804b044,0x1
  80487c9:	00 00 00 
+
+; re-establish old ebp and return
  80487cc:	c9                   	leave  
  80487cd:	c3                   	ret    
+
+; nop
  80487ce:	66 90                	xchg   ax,ax
 
-; ???
+
 080487d0 <edge_of_the_earth>:
+
+; setup stack frame
  80487d0:	55                   	push   ebp
  80487d1:	89 e5                	mov    ebp,esp
+
+; make room on the stack
  80487d3:	83 ec 18             	sub    esp,0x18
+
+; move esp to 'You fell and died' text
  80487d6:	c7 04 24 40 92 04 08 	mov    DWORD PTR [esp],0x8049240
+
+; call say to print text
  80487dd:	e8 9e ff ff ff       	call   8048780 <say>
+
+; move esp to 'you are now dead' text
  80487e2:	c7 04 24 27 91 04 08 	mov    DWORD PTR [esp],0x8049127
+
+; call say to print text
  80487e9:	e8 92 ff ff ff       	call   8048780 <say>
+
+; move esp to 0
  80487ee:	c7 04 24 00 00 00 00 	mov    DWORD PTR [esp],0x0
+
+; call exit to halt program
  80487f5:	e8 d6 fd ff ff       	call   80485d0 <exit@plt>
+
+; nops
  80487fa:	66 90                	xchg   ax,ax
  80487fc:	66 90                	xchg   ax,ax
  80487fe:	66 90                	xchg   ax,ax
+
 
 ;; START OF SECTION: Edge of the earth rooms ;;
 ; All the rooms in this section does the exact same thing, thus only the first
@@ -319,7 +308,7 @@ Disassembly of section .text:
 ; make room on the stack
  8048803:	83 ec 08             	sub    esp,0x8
 
-; call the function to end the game
+; call edge_of_earth (this ends the program)
  8048806:	e8 c5 ff ff ff       	call   80487d0 <edge_of_the_earth>
 
 ; nops
@@ -572,69 +561,152 @@ Disassembly of section .text:
 
 ;; END OF SECTION: Edge of the earth rooms ;;
 
-; ???
+
 080489c0 <boring_room>:
+
+; setup stack frame
  80489c0:	55                   	push   ebp
  80489c1:	89 e5                	mov    ebp,esp
+
+; make room on stack
  80489c3:	83 ec 18             	sub    esp,0x18
+
+; move esp to 'You look around' text
  80489c6:	c7 04 24 39 91 04 08 	mov    DWORD PTR [esp],0x8049139
+
+; call say to print text
  80489cd:	e8 ae fd ff ff       	call   8048780 <say>
+
+; move esp to 'This room is boring' text
  80489d2:	c7 04 24 4a 91 04 08 	mov    DWORD PTR [esp],0x804914a
+
+; call say to print text
  80489d9:	e8 a2 fd ff ff       	call   8048780 <say>
+
+; move esp to 'You decide to keep moving' text
  80489de:	c7 04 24 5f 91 04 08 	mov    DWORD PTR [esp],0x804915f
+
+; call say to print text
  80489e5:	e8 96 fd ff ff       	call   8048780 <say>
+
+; re-establish old ebp and return
  80489ea:	c9                   	leave  
  80489eb:	c3                   	ret    
+
+; nops
  80489ec:	66 90                	xchg   ax,ax
  80489ee:	66 90                	xchg   ax,ax
 
-; ???
+
 080489f0 <room_5_1>:
+
+; setup stack frame
  80489f0:	55                   	push   ebp
  80489f1:	89 e5                	mov    ebp,esp
+
+; make room on stack
  80489f3:	83 ec 18             	sub    esp,0x18
+
+; move VAR_SECRET_WIN (804b03c) to eax
  80489f6:	a1 3c b0 04 08       	mov    eax,ds:0x804b03c
+
+; if VAR_SECRET_WIN != 0 jump to IGNORE_BIKE
  80489fb:	85 c0                	test   eax,eax
  80489fd:	75 39                	jne    8048a38 <room_5_1+0x48>
+
+; move esp to 'you look around' text
  80489ff:	c7 04 24 39 91 04 08 	mov    DWORD PTR [esp],0x8049139
+
+; add 1 to VAR_SEEN_BIKE (804b040)
  8048a06:	83 05 40 b0 04 08 01 	add    DWORD PTR ds:0x804b040,0x1
+
+; call say to print text
  8048a0d:	e8 6e fd ff ff       	call   8048780 <say>
+
+; move esp to 'you see a bike' text
  8048a12:	c7 04 24 64 92 04 08 	mov    DWORD PTR [esp],0x8049264
+
+; call say to print text
  8048a19:	e8 62 fd ff ff       	call   8048780 <say>
+
+; move esp to 
  8048a1e:	c7 04 24 5f 91 04 08 	mov    DWORD PTR [esp],0x804915f
+
+; call say to print text
  8048a25:	e8 56 fd ff ff       	call   8048780 <say>
+
+; if VAR_SEEN_BIKE (804b040) == 3 jump to SEEN_BIKE_3_TIMES
  8048a2a:	83 3d 40 b0 04 08 03 	cmp    DWORD PTR ds:0x804b040,0x3
  8048a31:	74 15                	je     8048a48 <room_5_1+0x58>
+
+; re-establish ebp and return
  8048a33:	c9                   	leave  
  8048a34:	c3                   	ret    
+
+; nop
  8048a35:	8d 76 00             	lea    esi,[esi+0x0]
+
+; LABEL: IGNORE_BIKE, call boring_room
  8048a38:	e8 83 ff ff ff       	call   80489c0 <boring_room>
+
+; re-establish ebp
  8048a3d:	c9                   	leave  
+
+; nop
  8048a3e:	66 90                	xchg   ax,ax
+
+; return
  8048a40:	c3                   	ret    
+
+; possibly nop
  8048a41:	8d b4 26 00 00 00 00 	lea    esi,[esi+eiz*1+0x0]
+
+; LABEL: SEEN_BIKE_3_TIMES, move esp to 'seen bike 3 times' text
  8048a48:	c7 04 24 b0 92 04 08 	mov    DWORD PTR [esp],0x80492b0
+
+; set VAR_SECRET_WIN (804b03c) = 1
  8048a4f:	c7 05 3c b0 04 08 01 	mov    DWORD PTR ds:0x804b03c,0x1
  8048a56:	00 00 00 
+
+; call say to print text
  8048a59:	e8 22 fd ff ff       	call   8048780 <say>
+
+; move esp to 'nobody will miss the bike' text
  8048a5e:	c7 04 24 e4 92 04 08 	mov    DWORD PTR [esp],0x80492e4
+
+; call say to print text
  8048a65:	e8 16 fd ff ff       	call   8048780 <say>
+
+; re-establish ebp and return
  8048a6a:	c9                   	leave  
  8048a6b:	c3                   	ret    
+
+; nop
  8048a6c:	66 90                	xchg   ax,ax
  8048a6e:	66 90                	xchg   ax,ax
+
 
 ;; START OF SECTION: Boring rooms ;;
 ; All the rooms in this section does the exact same thing, thus only the first
 ; has been commented.
 
 08048a70 <room_6_6>:
+
+; setup stack frame
  8048a70:	55                   	push   ebp
  8048a71:	89 e5                	mov    ebp,esp
+
+; make room on stack
  8048a73:	83 ec 08             	sub    esp,0x8
+
+; call boring_room
  8048a76:	e8 45 ff ff ff       	call   80489c0 <boring_room>
+
+; re-establish ebp and return
  8048a7b:	c9                   	leave  
  8048a7c:	c3                   	ret    
+
+; nops
  8048a7d:	66 90                	xchg   ax,ax
  8048a7f:	90                   	nop
 
@@ -961,16 +1033,27 @@ Disassembly of section .text:
 ;; END OF SECTION: Boring rooms ;;
 
 
-; ???
 08048c80 <secret_win>:
+
+; setup stack frame
  8048c80:	55                   	push   ebp
  8048c81:	89 e5                	mov    ebp,esp
+
+; save registers that are to be used
  8048c83:	57                   	push   edi
  8048c84:	56                   	push   esi
  8048c85:	53                   	push   ebx
+
+; make room on the stack
  8048c86:	81 ec 8c 00 00 00    	sub    esp,0x8c
+
+; move byte on stack
  8048c8c:	c6 45 81 0a          	mov    BYTE PTR [ebp-0x7f],0xa
+
+; ???
  8048c90:	8d 75 81             	lea    esi,[ebp-0x7f]
+
+; move bytes on stack
  8048c93:	c6 45 82 0b          	mov    BYTE PTR [ebp-0x7e],0xb
  8048c97:	c6 45 83 0c          	mov    BYTE PTR [ebp-0x7d],0xc
  8048c9b:	c6 45 84 0d          	mov    BYTE PTR [ebp-0x7c],0xd
@@ -1067,169 +1150,394 @@ Disassembly of section .text:
  8048e07:	c6 45 df ff          	mov    BYTE PTR [ebp-0x21],0xff
  8048e0b:	c6 45 e0 e8          	mov    BYTE PTR [ebp-0x20],0xe8
  8048e0f:	c6 45 e1 f8          	mov    BYTE PTR [ebp-0x1f],0xf8
+
+; move esp to 'a joke about passwords' text
  8048e13:	c7 04 24 08 93 04 08 	mov    DWORD PTR [esp],0x8049308
+
+; move bytes on stack
  8048e1a:	c6 45 e2 fd          	mov    BYTE PTR [ebp-0x1e],0xfd
  8048e1e:	c6 45 e3 e9          	mov    BYTE PTR [ebp-0x1d],0xe9
  8048e22:	c6 45 e4 fe          	mov    BYTE PTR [ebp-0x1c],0xfe
  8048e26:	c6 45 e5 a0          	mov    BYTE PTR [ebp-0x1b],0xa0
  8048e2a:	c6 45 e6 ad          	mov    BYTE PTR [ebp-0x1a],0xad
  8048e2e:	c6 45 e7 9a          	mov    BYTE PTR [ebp-0x19],0x9a
+
+; call say to print text 'a joke about passwords'
  8048e32:	e8 49 f9 ff ff       	call   8048780 <say>
+
+; move esp to 'Edingburgh Fringe' text
  8048e37:	c7 04 24 7a 91 04 08 	mov    DWORD PTR [esp],0x804917a
+
+; call say to print text
  8048e3e:	e8 3d f9 ff ff       	call   8048780 <say>
+
+; move esp to end of .rodata
  8048e43:	c7 04 24 c7 96 04 08 	mov    DWORD PTR [esp],0x80496c7
+
+; call say to print text
  8048e4a:	e8 31 f9 ff ff       	call   8048780 <say>
+
+; move esp to 'Stand-up comedian Nick Helm' text
  8048e4f:	c7 04 24 54 93 04 08 	mov    DWORD PTR [esp],0x8049354
+
+; call say to print text
  8048e56:	e8 25 f9 ff ff       	call   8048780 <say>
+
+; move esp to 'beating a number of better known-acts' text
  8048e5b:	c7 04 24 a4 93 04 08 	mov    DWORD PTR [esp],0x80493a4
+
+; call say to print text
  8048e62:	e8 19 f9 ff ff       	call   8048780 <say>
+
+; move esp to 'for the best jokes of E. F.' text
  8048e67:	c7 04 24 f8 93 04 08 	mov    DWORD PTR [esp],0x80493f8
- 8048e6e:	e8 0d f9 ff ff       	call   8048780 <say>
+
+; call say to print text
+ 8048e6e:	e8 0d f9 ff f       	call   8048780 <say>
+
+; move esp to 'public vote' text
  8048e73:	c7 04 24 8c 91 04 08 	mov    DWORD PTR [esp],0x804918c
+
+; call say to print text
  8048e7a:	e8 01 f9 ff ff       	call   8048780 <say>
+
+; move esp to end of .rodata
  8048e7f:	c7 04 24 c7 96 04 08 	mov    DWORD PTR [esp],0x80496c7
+
+; call say to print text
  8048e86:	e8 f5 f8 ff ff       	call   8048780 <say>
+
+; move esp to 'You're probably wondering' text
  8048e8b:	c7 04 24 48 94 04 08 	mov    DWORD PTR [esp],0x8049448
+
+; call say to print text
  8048e92:	e8 e9 f8 ff ff       	call   8048780 <say>
+
+; move esp to 'number and i'll tell you' text
  8048e97:	c7 04 24 99 91 04 08 	mov    DWORD PTR [esp],0x8049199
+
+; call say to print text
  8048e9e:	e8 dd f8 ff ff       	call   8048780 <say>
+
+; move esp to 'Hahaha, I know, right!' text
  8048ea3:	c7 04 24 b4 91 04 08 	mov    DWORD PTR [esp],0x80491b4
+
+; read user input
  8048eaa:	e8 e1 f6 ff ff       	call   8048590 <readline@plt>
+
+; 3rd argument of strtol, set [esp + 8] = 10
  8048eaf:	c7 44 24 08 0a 00 00 	mov    DWORD PTR [esp+0x8],0xa
  8048eb6:	00 
+
+; 2nd argmument of strtol, set [esp + 4] = 0
  8048eb7:	c7 44 24 04 00 00 00 	mov    DWORD PTR [esp+0x4],0x0
  8048ebe:	00 
+
+; 1st argument of strtol, set [esp] = result from readline
  8048ebf:	89 04 24             	mov    DWORD PTR [esp],eax
+
+; convert result from readline to long integer in base 10
  8048ec2:	e8 39 f7 ff ff       	call   8048600 <strtol@plt>
+
+; edi = result from strtol + 103
  8048ec7:	8d 78 67             	lea    edi,[eax+0x67]
+
+; ebx = result from strtol
  8048eca:	89 c3                	mov    ebx,eax
+
+; ???, possible nop
  8048ecc:	29 c6                	sub    esi,eax
+
+; nop
  8048ece:	66 90                	xchg   ax,ax
+
+; LABEL: SECRET_WIN_NOT_DONE, ???
  8048ed0:	0f be 04 1e          	movsx  eax,BYTE PTR [esi+ebx*1]
  8048ed4:	8b 15 60 b0 04 08    	mov    edx,DWORD PTR ds:0x804b060
  8048eda:	31 d8                	xor    eax,ebx
  8048edc:	83 c3 01             	add    ebx,0x1
  8048edf:	89 54 24 04          	mov    DWORD PTR [esp+0x4],edx
  8048ee3:	89 04 24             	mov    DWORD PTR [esp],eax
+
+; read content at esp
  8048ee6:	e8 95 f6 ff ff       	call   8048580 <_IO_putc@plt>
+
+; ???
  8048eeb:	c7 04 24 50 c3 00 00 	mov    DWORD PTR [esp],0xc350
+
+; sleep
  8048ef2:	e8 a9 f6 ff ff       	call   80485a0 <usleep@plt>
+
+; ???
  8048ef7:	a1 60 b0 04 08       	mov    eax,ds:0x804b060
  8048efc:	89 04 24             	mov    DWORD PTR [esp],eax
  8048eff:	e8 5c f6 ff ff       	call   8048560 <fflush@plt>
+
+; if ebx != edi jump to SECRET_WIN_NOT_DONE
  8048f04:	39 fb                	cmp    ebx,edi
  8048f06:	75 c8                	jne    8048ed0 <secret_win+0x250>
+
+; sleep 1 second
  8048f08:	c7 04 24 01 00 00 00 	mov    DWORD PTR [esp],0x1
  8048f0f:	e8 5c f6 ff ff       	call   8048570 <sleep@plt>
+
+; mov esp to 'Hahaha, I know, right!' text
  8048f14:	c7 04 24 b7 91 04 08 	mov    DWORD PTR [esp],0x80491b7
+
+; call say to print text
  8048f1b:	e8 60 f8 ff ff       	call   8048780 <say>
+
+; exit with status 0
  8048f20:	c7 04 24 00 00 00 00 	mov    DWORD PTR [esp],0x0
  8048f27:	e8 a4 f6 ff ff       	call   80485d0 <exit@plt>
+
+; nop
  8048f2c:	66 90                	xchg   ax,ax
  8048f2e:	66 90                	xchg   ax,ax
 
-; ???
+
 08048f30 <win>:
+
+; setup stack frame
  8048f30:	55                   	push   ebp
  8048f31:	89 e5                	mov    ebp,esp
+
+; make room on stack
  8048f33:	83 ec 18             	sub    esp,0x18
+
+; move esp to 'The journey' text
  8048f36:	c7 04 24 98 94 04 08 	mov    DWORD PTR [esp],0x8049498
+
+; call say to print text
  8048f3d:	e8 3e f8 ff ff       	call   8048780 <say>
+
+; move esp to 'Chinese proverb' text
  8048f42:	c7 04 24 b8 94 04 08 	mov    DWORD PTR [esp],0x80494b8
+
+; call say to print text
  8048f49:	e8 32 f8 ff ff       	call   8048780 <say>
+
+; exit with status 0
  8048f4e:	c7 04 24 00 00 00 00 	mov    DWORD PTR [esp],0x0
  8048f55:	e8 76 f6 ff ff       	call   80485d0 <exit@plt>
+
+; nop
  8048f5a:	66 90                	xchg   ax,ax
  8048f5c:	66 90                	xchg   ax,ax
  8048f5e:	66 90                	xchg   ax,ax
 
-; ???
+
 08048f60 <room_2_2>:
+
+; setup stack frame
  8048f60:	55                   	push   ebp
  8048f61:	89 e5                	mov    ebp,esp
+
+; make room on stack
  8048f63:	83 ec 18             	sub    esp,0x18
+
+; set eax = VAR_WIN
  8048f66:	a1 44 b0 04 08       	mov    eax,ds:0x804b044
+
+; if VAR_WIN == 0 jump to NO_WIN
  8048f6b:	85 c0                	test   eax,eax
  8048f6d:	74 49                	je     8048fb8 <room_2_2+0x58>
+
+; move esp to 'Congratulations' text
  8048f6f:	c7 04 24 d0 91 04 08 	mov    DWORD PTR [esp],0x80491d0
+
+; call say to print text
  8048f76:	e8 05 f8 ff ff       	call   8048780 <say>
+
+; move esp to 'you have won' text
  8048f7b:	c7 04 24 e1 91 04 08 	mov    DWORD PTR [esp],0x80491e1
+
+; call say to print text
  8048f82:	e8 f9 f7 ff ff       	call   8048780 <say>
- 8048f87:	8b 0d 3c b0 04 08    	mov    ecx,DWORD PTR ds:0x804b03c
+
+; set ecx = VAR_SECRET_WIN
+ 8048f87:	8b 0d 3c b0 0408    	mov    ecx,DWORD PTR ds:0x804b03c
+
+; if ecx != 0 jump to EXTRA_MSG
+; (i.e. if the player found the secret win)
  8048f8d:	85 c9                	test   ecx,ecx
  8048f8f:	75 4f                	jne    8048fe0 <room_2_2+0x80>
+
+; LABEL: YOU_WIN, move esp to 'Here is you prize' text
  8048f91:	c7 04 24 16 92 04 08 	mov    DWORD PTR [esp],0x8049216
+
+; call say to print text
  8048f98:	e8 e3 f7 ff ff       	call   8048780 <say>
+
+; set edx = VAR_SECRET_WIN
  8048f9d:	8b 15 3c b0 04 08    	mov    edx,DWORD PTR ds:0x804b03c
+
+; if edx == 0 jump to NO_SECRET
+; (i.e. if the player did not find the secret win)
  8048fa3:	85 d2                	test   edx,edx
  8048fa5:	74 09                	je     8048fb0 <room_2_2+0x50>
+
+; call secret_win
  8048fa7:	e8 d4 fc ff ff       	call   8048c80 <secret_win>
+
+; ???, possibly nop
  8048fac:	8d 74 26 00          	lea    esi,[esi+eiz*1+0x0]
+
+; LABEL: NO_SECRET, call win
  8048fb0:	e8 7b ff ff ff       	call   8048f30 <win>
+
+; nop
  8048fb5:	8d 76 00             	lea    esi,[esi+0x0]
+
+; LABEL: NO_WIN, move esp to 'Welcome' text
  8048fb8:	c7 04 24 2a 92 04 08 	mov    DWORD PTR [esp],0x804922a
+
+; call say to print text
  8048fbf:	e8 bc f7 ff ff       	call   8048780 <say>
+
+; move esp to 'Here you will learn' text
  8048fc4:	c7 04 24 dc 94 04 08 	mov    DWORD PTR [esp],0x80494dc
+
+; call say to print text
  8048fcb:	e8 b0 f7 ff ff       	call   8048780 <say>
+
+; move esp to 'come back here when' text
  8048fd0:	c7 04 24 34 95 04 08 	mov    DWORD PTR [esp],0x8049534
+
+; call say to print text
  8048fd7:	e8 a4 f7 ff ff       	call   8048780 <say>
+
+; re-establish old ebp and return
  8048fdc:	c9                   	leave  
  8048fdd:	c3                   	ret    
+
+; nop
  8048fde:	66 90                	xchg   ax,ax
+
+; LABEL: EXTRA_MSG, move esp to 'you even found' text
  8048fe0:	c7 04 24 f8 91 04 08 	mov    DWORD PTR [esp],0x80491f8
+
+; call say to print text
  8048fe7:	e8 94 f7 ff ff       	call   8048780 <say>
+
+; jump to YOU_WIN
  8048fec:	eb a3                	jmp    8048f91 <room_2_2+0x31>
 
-; ???
+
 08048fee <move_next_room>:
+
+; setup stack frame
  8048fee:	55                   	push   ebp
  8048fef:	89 e5                	mov    ebp,esp
+
+; push registers to be save
  8048ff1:	53                   	push   ebx
  8048ff2:	52                   	push   edx
- 8048ff3:	83 ec 0c             	sub    esp,0xc
+
+; LABEL: MOVE_NEXT_LOOP
+; make room on stack
+ 8048ff3:	83 ec 0c            	sub    esp,0xc
+
+; push 'where do you want to go' text
  8048ff6:	68 80 96 04 08       	push   0x8049680
+
+; call put to write text
  8048ffb:	e8 b0 f5 ff ff       	call   80485b0 <puts@plt>
+
+; move esp to '>' text
  8049000:	c7 04 24 b4 91 04 08 	mov    DWORD PTR [esp],0x80491b4
+
+; read user input
  8049007:	e8 84 f5 ff ff       	call   8048590 <readline@plt>
+
+; move esp to user input
  804900c:	89 04 24             	mov    DWORD PTR [esp],eax
+
+; set ebx = user input
  804900f:	89 c3                	mov    ebx,eax
+
+; get length of user input
  8049011:	e8 ca f5 ff ff       	call   80485e0 <strlen@plt>
+
+; remove 1 word on stack
  8049016:	83 c4 10             	add    esp,0x10
+
+; decrement strlen result by 1
  8049019:	48                   	dec    eax
+
+; if ZF = 0 jump to UNKNOWN_INPUT
  804901a:	75 36                	jne    8049052 <move_next_room+0x64>
+
+; move 1 byte of user input to dl
  804901c:	8a 13                	mov    dl,BYTE PTR [ebx]
+
+; if user input != 'E' jump to NEXT_CHAR_1
  804901e:	80 fa 45             	cmp    dl,0x45
  8049021:	75 08                	jne    804902b <move_next_room+0x3d>
+
+; increment MOVE_EW and jump to MOVE_DONE
  8049023:	ff 05 4c b0 04 08    	inc    DWORD PTR ds:0x804b04c
  8049029:	eb 39                	jmp    8049064 <move_next_room+0x76>
+ 
+; LABEL: NEXT_CHAR_1
+; if user input != 'W' jump to NEXT_CHAR_2
  804902b:	80 fa 57             	cmp    dl,0x57
  804902e:	75 08                	jne    8049038 <move_next_room+0x4a>
+
+; decrement MOVE_EW and jump to MOVE_DONE
  8049030:	ff 0d 4c b0 04 08    	dec    DWORD PTR ds:0x804b04c
  8049036:	eb 2c                	jmp    8049064 <move_next_room+0x76>
+
+; LABEL: NEXT_CHAR_2
+; if user input != 'N' jump to NEXT_CHAR_3
  8049038:	80 fa 4e             	cmp    dl,0x4e
  804903b:	75 08                	jne    8049045 <move_next_room+0x57>
+
+; increment MOVE_NS and jump to MOVE_DONE
  804903d:	ff 05 48 b0 04 08    	inc    DWORD PTR ds:0x804b048
  8049043:	eb 1f                	jmp    8049064 <move_next_room+0x76>
+
+; LABEL: NEXT_CHAR_3
+; if user_input != 'S' jump to UNKNOWN_INPUT
  8049045:	80 fa 53             	cmp    dl,0x53
  8049048:	75 08                	jne    8049052 <move_next_room+0x64>
+
+; decrement MOVE_NS and jump to MOVE_DONE
  804904a:	ff 0d 48 b0 04 08    	dec    DWORD PTR ds:0x804b048
  8049050:	eb 12                	jmp    8049064 <move_next_room+0x76>
+
+; LABEL: UNKNOWN_INPUT
+; push registers with unknown user input
  8049052:	50                   	push   eax
  8049053:	50                   	push   eax
  8049054:	53                   	push   ebx
+
+; push 'I do not knwo the direction' text
  8049055:	68 a4 96 04 08       	push   0x80496a4
+
+; call printf to format and print text
  804905a:	e8 f1 f4 ff ff       	call   8048550 <printf@plt>
+
+; remove 1 word on stack
  804905f:	83 c4 10             	add    esp,0x10
+
+; jump to MOVE_NEXT_LOOP
  8049062:	eb 8f                	jmp    8048ff3 <move_next_room+0x5>
+
+; LABEL: MOVE_DONE
  8049064:	8b 5d fc             	mov    ebx,DWORD PTR [ebp-0x4]
+
+; re-establish old ebp and return
  8049067:	c9                   	leave  
  8049068:	c3                   	ret    
+
+; nops
  8049069:	66 90                	xchg   ax,ax
  804906b:	66 90                	xchg   ax,ax
  804906d:	66 90                	xchg   ax,ax
  804906f:	90                   	nop
 
-; ???
+; NOT IMPORTANT
 08049070 <__libc_csu_init>:
  8049070:	55                   	push   ebp
  8049071:	57                   	push   edi
@@ -1278,24 +1586,11 @@ Disassembly of section .text:
  80490de:	90                   	nop
  80490df:	90                   	nop
 
-; ???
+; NOT IMPORTANT
 080490e0 <__libc_csu_fini>:
  80490e0:	f3 c3                	repz ret 
 
-; ???
+; NOT IMPORTANT
 080490e2 <__i686.get_pc_thunk.bx>:
  80490e2:	8b 1c 24             	mov    ebx,DWORD PTR [esp]
  80490e5:	c3                   	ret    
-
-Disassembly of section .fini:
-
-; ???
-080490e8 <_fini>:
- 80490e8:	53                   	push   ebx
- 80490e9:	83 ec 08             	sub    esp,0x8
- 80490ec:	e8 00 00 00 00       	call   80490f1 <_fini+0x9>
- 80490f1:	5b                   	pop    ebx
- 80490f2:	81 c3 0f 1f 00 00    	add    ebx,0x1f0f
- 80490f8:	83 c4 08             	add    esp,0x8
- 80490fb:	5b                   	pop    ebx
- 80490fc:	c3                   	ret    
