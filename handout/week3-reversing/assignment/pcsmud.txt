@@ -35,7 +35,7 @@ Disassembly of section .text:
  8048641:	c7 05 44 b0 04 08 00 	mov    DWORD PTR ds:0x804b044,0x0
  8048648:	00 00 00 
 
-; VAR_SEEN_BIKE (804b040) = 0
+; set VAR_SEEN_BIKE (804b040) = 0
  804864b:	c7 05 40 b0 04 08 00 	mov    DWORD PTR ds:0x804b040,0x0
  8048652:	00 00 00 
 
@@ -89,6 +89,8 @@ Disassembly of section .text:
  8048696:	5e                   	pop    esi
  8048697:	89 e1                	mov    ecx,esp
  8048699:	83 e4 f0             	and    esp,0xfffffff0
+
+; push registers to stack
  804869c:	50                   	push   eax
  804869d:	54                   	push   esp
  804869e:	52                   	push   edx
@@ -99,7 +101,7 @@ Disassembly of section .text:
 ; push address of <__libc_csu_init>
  80486a4:	68 70 90 04 08       	push   0x8049070
 
-; ???
+; push registers to stack
  80486a9:	51                   	push   ecx
  80486aa:	56                   	push   esi
 
@@ -210,15 +212,17 @@ Disassembly of section .text:
 ; make room on stack
  8048783:	83 ec 18             	sub    esp,0x18
 
-; move esp to 'empty text'
+; move esp to spaces
  8048786:	c7 04 24 04 91 04 08 	mov    DWORD PTR [esp],0x8049104
 
 ; call printf
  804878d:	e8 be fd ff ff       	call   8048550 <printf@plt>
 
-; ???
+; move esp to [ebs+8], argument of say
  8048792:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
  8048795:	89 04 24             	mov    DWORD PTR [esp],eax
+
+; call puts to print the text given as argument to say
  8048798:	e8 13 fe ff ff       	call   80485b0 <puts@plt>
 
 ; call sleep
@@ -1050,7 +1054,7 @@ Disassembly of section .text:
 ; move byte on stack
  8048c8c:	c6 45 81 0a          	mov    BYTE PTR [ebp-0x7f],0xa
 
-; ???
+; move address of line feed to esi
  8048c90:	8d 75 81             	lea    esi,[ebp-0x7f]
 
 ; move bytes on stack
@@ -1245,7 +1249,7 @@ Disassembly of section .text:
 ; ebx = result from strtol
  8048eca:	89 c3                	mov    ebx,eax
 
-; ???, possible nop
+; esi = [address of first pushed line feed - user input]
  8048ecc:	29 c6                	sub    esi,eax
 
 ; nop
