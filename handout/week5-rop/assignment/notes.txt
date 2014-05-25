@@ -1,0 +1,3 @@
+0x804a04c = file_data
+0x804a050 = file_numb (length of file)
+0x804a054 = file_pos
