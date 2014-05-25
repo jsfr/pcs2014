@@ -9,14 +9,49 @@ together in creating the vulnerability.
 2 Drawing of stack
 ==================
 
-The drawing of the stack is seen from the scope of the function get_line, as
-it is in this function where the overflow happens. However the return address
-we overflow is not the one belonging to get_line, but the one belonging to
-get_lines
+The drawing of the stack is seen from the scope of the function get_line. The 
+return address we overflow is not the one belonging to get_line, but the one 
+belonging to get_lines. Every segment of the drawing is 4 bytes, unless
+something otherwise stated.
 
-    { get_lines                       }{ get_line            }
-          {         0x1024            }
-    | ret | ebp | ebx |        | arg0 | ret | ebp | ebx | ???
+    ----------------
+     ret
+    ----------------
+     ebp
+    ---------------- <- ebp of get_lines
+     ebx
+    ----------------
+     buffer we
+     overflow,
+     size = 0x1004
+    ----------------
+     res of get_line
+    ----------------
+     0 first, then
+     addr of
+     malloc'd mem
+    ----------------
+     addr of
+     malloc'd mem
+    ----------------
+     ???,
+     size = 0x8
+    ----------------
+     arg1 = 0x1000
+    ----------------
+     arg0 = addr of
+     malloc'd mem
+    ---------------- <- esp of get_lines
+     ret
+    ----------------
+     ebp
+    ---------------- <- ebp of get_line
+     ebx
+    ----------------
+     space reserved
+     by get_line,
+     size = 0x10
+    ---------------- <- esp of get_line
 
 
 3 Exploit
