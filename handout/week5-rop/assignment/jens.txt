@@ -1,0 +1,172 @@
+== Disassembly
+
+Good level of detail.  Good use of labels and gotos.  Try naming local variables
+as well.
+
+What is 0x0a (instruction at 0x8048723)?
+
+Did you get lost in get_lines?  Most did.  Hints below.
+
+== Exploit
+
+You cannot mmap space in the dynamic section; it is already mapped! You must
+pick an unmapped address.
+
+memcpy is a bad choice; see below.
+
+Below are some comments that I copy'n'pasted to many students.  They may not all
+apply to you.
+
+== Name things
+
+Instead of 'ebp - 0xXXXX' write 'ebp - local_var' and then 'local_var = 0xXXXX'
+somewhere near the top.  Use labels.  Instead of 'jump to 0x8048804' write 'goto
+LOOP_CONDITION' and then before address 0x8048804 write 'LOOP_CONDITION:' or
+something similar.
+
+You can look up the names for the global variables with 'readelf -s sortfile'.
+This binary has not been stripped so the names are still there.
+
+== What does get_lines do?
+
+It builds a linked list of the lines in the input file.  The call to malloc
+allocates a node in the linked list.  With this knowledge, please have another
+look at the function.  And name things!
+
+== Comment on 'ebp - 0x38' in load_file
+
+This snippet has puzzled many students:
+  804867e: 8b 45 c8       mov eax,DWORD PTR [ebp-0x38]
+  8048681: a3 50 a0 04 08 mov ds:0x804a050,eax
+
+To understand it we must first look at another part of the program:
+  804866c: 8d 45 9c       lea eax,[ebp-0x64]
+  804866f: 89 44 24 04    mov DWORD PTR [esp+0x4],eax
+  8048673: 8b 45 f4       mov eax,DWORD PTR [ebp-0xc]
+  8048676: 89 04 24       mov DWORD PTR [esp],eax
+  8048679: e8 62 03 00 00 call 80489e0 <__fstat>
+
+Number the instructions 1-5.  Instruction 1 takes the address of some local
+variable (this often happens when we store structs on the stack, but sometimes
+for simple types as well).  Instruction 2 uses this address as the second
+argument to the following function call.  Instruction 3 fetches the file
+descriptor previously returned from open from the local variable where it was
+saved.  Instruction 4 uses it as the first argument to the function call.
+Instruction 5 calls fstat.  Combining with the previous call to open we have
+something similar to:
+
+  fd = open(...)
+  fstat(fd, &foo)
+
+Looking at the man page for fstat we see that the second argument has type
+'struct stat *', and therefore 'foo' must have type 'struct stat'.  We also see
+from the example near the end of the man page that 'sb' is probably a more
+typical name for this variable than 'foo'.
+
+With this knowledge we can look at the puzzling snippet again.  Looking once
+more at the man page for fstat we find a definition of 'struct stat':
+
+  struct stat {
+    dev_t     st_dev;         /* ID of device containing file */
+    ino_t     st_ino;         /* inode number */
+    mode_t    st_mode;        /* protection */
+    nlink_t   st_nlink;       /* number of hard links */
+    uid_t     st_uid;         /* user ID of owner */
+    gid_t     st_gid;         /* group ID of owner */
+    dev_t     st_rdev;        /* device ID (if special file) */
+    off_t     st_size;        /* total size, in bytes */
+    blksize_t st_blksize;     /* blocksize for filesystem I/O */
+    blkcnt_t  st_blocks;      /* number of 512B blocks allocated */
+
+    /* Since Linux 2.6, the kernel supports nanosecond
+      precision for the following timestamp fields.
+      For the details before Linux 2.6, see NOTES. */
+
+    struct timespec st_atim;  /* time of last access */
+    struct timespec st_mtim;  /* time of last modification */
+    struct timespec st_ctim;  /* time of last status change */
+
+    #define st_atime st_atim.tv_sec      /* Backward compatibility */
+    #define st_mtime st_mtim.tv_sec
+    #define st_ctime st_ctim.tv_sec
+  };
+
+Looking up the types (/usr/include/i386-linux-gnu/bits/{stat,types}.h) or
+writing a small test program we can get a more precise picture of the stack
+frame (draw it!):
+
+ebp - 0x24 : st_ctim    (size 4)
+ebp - 0x28 : st_mtim    (size 4)
+ebp - 0x2C : st_atim    (size 4)
+ebp - 0x30 : st_blocks  (size 4)
+ebp - 0x34 : st_blksize (size 4)
+ebp - 0x38 : st_size    (size 4)
+(padding, size 4)
+ebp - 0x44 : st_rdev    (size 8)
+ebp - 0x48 : st_gid     (size 4)
+ebp - 0x4C : st_uid     (size 4)
+ebp - 0x50 : st_nlink   (size 4)
+ebp - 0x54 : st_mode    (size 4)
+ebp - 0x58 : st_ino     (size 4)
+(padding, size 4)
+ebp - 0x64 : st_dev     (size 8)
+
+And there we have it; 'ebp - 0x38' is 'sb.st_size', which according to the man
+page is 'total size, in bytes'.
+
+== Strategy for ROP'ing
+
+ROP is a puzzle; be sure you have all the pieces before you start building your
+ROP-chain.  For this particular program a simple call-chaining ROP is enough to
+win.  So let's see which functions there are.  First the ones in the PLT:
+  strcmp
+  memcpy
+  malloc
+  puts
+  __fxstat
+  system
+  exit
+  open
+  mmap
+  __libc_start_main
+  write
+  ftruncate
+
+You can look each one up with man to figure out what it does and which arguments
+it takes.
+
+Then there are the functions in the program:
+  main
+  load_file
+  get_lines
+  get_line
+  insertion_sort
+  write_file
+
+You need to RE these to figure out what they do and which arguments they take.
+
+One suggestion for a ROP-chain would be:
+  1) map executable memory at a known location
+  2) move data we control to that address
+  3) jump there
+  4) profit!
+
+Step 1 is easy; use mmap.  Step 2 is harder.  Lets look at the functions in the
+PLT:
+  strcmp              Nope
+  memcpy              Maybe
+  malloc              Nope
+  puts                Nope
+  __fxstat            Nope
+  system              Nope
+  exit                Definitely nope
+  open                Nope
+  mmap                Nope
+  __libc_start_main   Nope
+  write               Nope
+  ftruncate           Nope
+
+Ok, so can we use memcpy?  That only works if we can find what we need at a
+known location.  But we can't (ASLR), so it's no good.  This leaves you with the
+functions in the program itself.  Of these main, insertion_sort and write_file
+does not look very promising, so have a look at the others.

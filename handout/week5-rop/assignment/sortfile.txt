@@ -191,6 +191,8 @@ Disassembly of section .text:
  80485ec:	55                   	push   ebp
  80485ed:	89 e5                	mov    ebp,esp
  80485ef:	81 ec 88 00 00 00    	sub    esp,0x88
+
+; test if file.in exist
  80485f5:	c7 04 24 30 8a 04 08 	mov    DWORD PTR [esp],0x8048a30
  80485fc:	e8 7f fe ff ff       	call   8048480 <system@plt>
  8048601:	85 c0                	test   eax,eax
@@ -199,6 +201,8 @@ Disassembly of section .text:
  804860c:	e8 2f fe ff ff       	call   8048440 <printf@plt>
  8048611:	c7 04 24 01 00 00 00 	mov    DWORD PTR [esp],0x1
  8048618:	e8 83 fe ff ff       	call   80484a0 <exit@plt>
+ 
+; test if file.out exist
  804861d:	c7 04 24 59 8a 04 08 	mov    DWORD PTR [esp],0x8048a59
  8048624:	e8 57 fe ff ff       	call   8048480 <system@plt>
  8048629:	85 c0                	test   eax,eax
@@ -211,10 +215,14 @@ Disassembly of section .text:
  8048644:	e8 f7 fd ff ff       	call   8048440 <printf@plt>
  8048649:	c7 04 24 00 00 00 00 	mov    DWORD PTR [esp],0x0
  8048650:	e8 4b fe ff ff       	call   80484a0 <exit@plt>
+ 
+; open file.in
  8048655:	c7 44 24 04 00 00 00 	mov    DWORD PTR [esp+0x4],0x0
  804865c:	00 
  804865d:	c7 04 24 9d 8a 04 08 	mov    DWORD PTR [esp],0x8048a9d
  8048664:	e8 47 fe ff ff       	call   80484b0 <open@plt>
+
+
  8048669:	89 45 f4             	mov    DWORD PTR [ebp-0xc],eax
  804866c:	8d 45 9c             	lea    eax,[ebp-0x64]
  804866f:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
@@ -320,7 +328,7 @@ Disassembly of section .text:
 ; set eax = byte (char) at address of eax
  8048720:	0f b6 00             	movzx  eax,BYTE PTR [eax]
 
-; if char != 0xa jump to GET_LINE_LOOP
+; if char != LF (line_feed) jump to GET_LINE_LOOP
  8048723:	3c 0a                	cmp    al,0xa
  8048725:	75 b4                	jne    80486db <get_line+0x10>
  
