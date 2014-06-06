@@ -1,0 +1,30 @@
+3 Exploit
+=========
+
+The exploit can be found in the file 'exploit.c' which also uses the shell code
+in 'shellcode.asm'.
+
+The exploit works by overflowing the buffer which holds a line. From here we 
+can build the stack and construct a ROP chain.
+
+The ROP chain starts by mapping a 8K page at the unmapped address 0x41414000. 
+The memory is mapped such that it is both readable, writable and executable.
+
+Afterwards the function load_file is called to reload the file 'file.in'
+containing the shellcode. Then the function get_line is called with the mapped
+address as argument. This loads the shellcode to the mapped memory.
+
+Finally we return to the mapped memory, passing control to the shellcode.
+
+
+4 How I worked around ASLR and DEP
+==================================
+
+To work around DEP the exploit maps memory using mmap. This memory is mapped to
+be readable, writeable and executable, allowing that we can move the shell code
+to this memory using memcpy and then return to the mapped memory allowing for
+execution.
+
+Because of ASLR we do not know where the shellcode is placed. However we can 
+use the programs own functions load_file and get_line to move the shellcode
+to some address, thus working around ASLR.

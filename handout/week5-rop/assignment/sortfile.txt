@@ -689,8 +689,8 @@ Disassembly of section .fini:
  8048a14:	e8 00 00 00 00       	call   8048a19 <_fini+0x9>
  8048a19:	5b                   	pop    ebx
  8048a1a:	81 c3 e7 15 00 00    	add    ebx,0x15e7
-
- ; pop3
  8048a20:	83 c4 08             	add    esp,0x8
+
+; pop1
  8048a23:	5b                   	pop    ebx
  8048a24:	c3                   	ret    
