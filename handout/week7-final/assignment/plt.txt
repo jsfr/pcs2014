@@ -1,0 +1,166 @@
+
+bmptool:     file format elf32-i386
+
+
+Disassembly of section .plt:
+
+08048950 <strcmp@plt-0x10>:
+ 8048950:	ff 35 9c 0a 05 08    	push   DWORD PTR ds:0x8050a9c
+ 8048956:	ff 25 a0 0a 05 08    	jmp    DWORD PTR ds:0x8050aa0
+ 804895c:	00 00                	add    BYTE PTR [eax],al
+	...
+
+08048960 <strcmp@plt>:
+ 8048960:	ff 25 a4 0a 05 08    	jmp    DWORD PTR ds:0x8050aa4
+ 8048966:	68 00 00 00 00       	push   0x0
+ 804896b:	e9 e0 ff ff ff       	jmp    8048950 <_init+0x34>
+
+08048970 <read@plt>:
+ 8048970:	ff 25 a8 0a 05 08    	jmp    DWORD PTR ds:0x8050aa8
+ 8048976:	68 08 00 00 00       	push   0x8
+ 804897b:	e9 d0 ff ff ff       	jmp    8048950 <_init+0x34>
+
+08048980 <printf@plt>:
+ 8048980:	ff 25 ac 0a 05 08    	jmp    DWORD PTR ds:0x8050aac
+ 8048986:	68 10 00 00 00       	push   0x10
+ 804898b:	e9 c0 ff ff ff       	jmp    8048950 <_init+0x34>
+
+08048990 <memcpy@plt>:
+ 8048990:	ff 25 b0 0a 05 08    	jmp    DWORD PTR ds:0x8050ab0
+ 8048996:	68 18 00 00 00       	push   0x18
+ 804899b:	e9 b0 ff ff ff       	jmp    8048950 <_init+0x34>
+
+080489a0 <time@plt>:
+ 80489a0:	ff 25 b4 0a 05 08    	jmp    DWORD PTR ds:0x8050ab4
+ 80489a6:	68 20 00 00 00       	push   0x20
+ 80489ab:	e9 a0 ff ff ff       	jmp    8048950 <_init+0x34>
+
+080489b0 <lseek@plt>:
+ 80489b0:	ff 25 b8 0a 05 08    	jmp    DWORD PTR ds:0x8050ab8
+ 80489b6:	68 28 00 00 00       	push   0x28
+ 80489bb:	e9 90 ff ff ff       	jmp    8048950 <_init+0x34>
+
+080489c0 <sysconf@plt>:
+ 80489c0:	ff 25 bc 0a 05 08    	jmp    DWORD PTR ds:0x8050abc
+ 80489c6:	68 30 00 00 00       	push   0x30
+ 80489cb:	e9 80 ff ff ff       	jmp    8048950 <_init+0x34>
+
+080489d0 <perror@plt>:
+ 80489d0:	ff 25 c0 0a 05 08    	jmp    DWORD PTR ds:0x8050ac0
+ 80489d6:	68 38 00 00 00       	push   0x38
+ 80489db:	e9 70 ff ff ff       	jmp    8048950 <_init+0x34>
+
+080489e0 <fwrite@plt>:
+ 80489e0:	ff 25 c4 0a 05 08    	jmp    DWORD PTR ds:0x8050ac4
+ 80489e6:	68 40 00 00 00       	push   0x40
+ 80489eb:	e9 60 ff ff ff       	jmp    8048950 <_init+0x34>
+
+080489f0 <strcpy@plt>:
+ 80489f0:	ff 25 c8 0a 05 08    	jmp    DWORD PTR ds:0x8050ac8
+ 80489f6:	68 48 00 00 00       	push   0x48
+ 80489fb:	e9 50 ff ff ff       	jmp    8048950 <_init+0x34>
+
+08048a00 <puts@plt>:
+ 8048a00:	ff 25 cc 0a 05 08    	jmp    DWORD PTR ds:0x8050acc
+ 8048a06:	68 50 00 00 00       	push   0x50
+ 8048a0b:	e9 40 ff ff ff       	jmp    8048950 <_init+0x34>
+
+08048a10 <__gmon_start__@plt>:
+ 8048a10:	ff 25 d0 0a 05 08    	jmp    DWORD PTR ds:0x8050ad0
+ 8048a16:	68 58 00 00 00       	push   0x58
+ 8048a1b:	e9 30 ff ff ff       	jmp    8048950 <_init+0x34>
+
+08048a20 <open@plt>:
+ 8048a20:	ff 25 d4 0a 05 08    	jmp    DWORD PTR ds:0x8050ad4
+ 8048a26:	68 60 00 00 00       	push   0x60
+ 8048a2b:	e9 20 ff ff ff       	jmp    8048950 <_init+0x34>
+
+08048a30 <mmap@plt>:
+ 8048a30:	ff 25 d8 0a 05 08    	jmp    DWORD PTR ds:0x8050ad8
+ 8048a36:	68 68 00 00 00       	push   0x68
+ 8048a3b:	e9 10 ff ff ff       	jmp    8048950 <_init+0x34>
+
+08048a40 <strchr@plt>:
+ 8048a40:	ff 25 dc 0a 05 08    	jmp    DWORD PTR ds:0x8050adc
+ 8048a46:	68 70 00 00 00       	push   0x70
+ 8048a4b:	e9 00 ff ff ff       	jmp    8048950 <_init+0x34>
+
+08048a50 <strlen@plt>:
+ 8048a50:	ff 25 e0 0a 05 08    	jmp    DWORD PTR ds:0x8050ae0
+ 8048a56:	68 78 00 00 00       	push   0x78
+ 8048a5b:	e9 f0 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048a60 <__libc_start_main@plt>:
+ 8048a60:	ff 25 e4 0a 05 08    	jmp    DWORD PTR ds:0x8050ae4
+ 8048a66:	68 80 00 00 00       	push   0x80
+ 8048a6b:	e9 e0 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048a70 <fprintf@plt>:
+ 8048a70:	ff 25 e8 0a 05 08    	jmp    DWORD PTR ds:0x8050ae8
+ 8048a76:	68 88 00 00 00       	push   0x88
+ 8048a7b:	e9 d0 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048a80 <write@plt>:
+ 8048a80:	ff 25 ec 0a 05 08    	jmp    DWORD PTR ds:0x8050aec
+ 8048a86:	68 90 00 00 00       	push   0x90
+ 8048a8b:	e9 c0 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048a90 <strcasecmp@plt>:
+ 8048a90:	ff 25 f0 0a 05 08    	jmp    DWORD PTR ds:0x8050af0
+ 8048a96:	68 98 00 00 00       	push   0x98
+ 8048a9b:	e9 b0 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048aa0 <memset@plt>:
+ 8048aa0:	ff 25 f4 0a 05 08    	jmp    DWORD PTR ds:0x8050af4
+ 8048aa6:	68 a0 00 00 00       	push   0xa0
+ 8048aab:	e9 a0 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048ab0 <putchar@plt>:
+ 8048ab0:	ff 25 f8 0a 05 08    	jmp    DWORD PTR ds:0x8050af8
+ 8048ab6:	68 a8 00 00 00       	push   0xa8
+ 8048abb:	e9 90 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048ac0 <__errno_location@plt>:
+ 8048ac0:	ff 25 fc 0a 05 08    	jmp    DWORD PTR ds:0x8050afc
+ 8048ac6:	68 b0 00 00 00       	push   0xb0
+ 8048acb:	e9 80 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048ad0 <munmap@plt>:
+ 8048ad0:	ff 25 00 0b 05 08    	jmp    DWORD PTR ds:0x8050b00
+ 8048ad6:	68 b8 00 00 00       	push   0xb8
+ 8048adb:	e9 70 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048ae0 <strrchr@plt>:
+ 8048ae0:	ff 25 04 0b 05 08    	jmp    DWORD PTR ds:0x8050b04
+ 8048ae6:	68 c0 00 00 00       	push   0xc0
+ 8048aeb:	e9 60 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048af0 <sprintf@plt>:
+ 8048af0:	ff 25 08 0b 05 08    	jmp    DWORD PTR ds:0x8050b08
+ 8048af6:	68 c8 00 00 00       	push   0xc8
+ 8048afb:	e9 50 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048b00 <atoi@plt>:
+ 8048b00:	ff 25 0c 0b 05 08    	jmp    DWORD PTR ds:0x8050b0c
+ 8048b06:	68 d0 00 00 00       	push   0xd0
+ 8048b0b:	e9 40 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048b10 <sbrk@plt>:
+ 8048b10:	ff 25 10 0b 05 08    	jmp    DWORD PTR ds:0x8050b10
+ 8048b16:	68 d8 00 00 00       	push   0xd8
+ 8048b1b:	e9 30 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048b20 <abort@plt>:
+ 8048b20:	ff 25 14 0b 05 08    	jmp    DWORD PTR ds:0x8050b14
+ 8048b26:	68 e0 00 00 00       	push   0xe0
+ 8048b2b:	e9 20 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048b30 <mremap@plt>:
+ 8048b30:	ff 25 18 0b 05 08    	jmp    DWORD PTR ds:0x8050b18
+ 8048b36:	68 e8 00 00 00       	push   0xe8
+ 8048b3b:	e9 10 fe ff ff       	jmp    8048950 <_init+0x34>
+
+08048b40 <close@plt>:
+ 8048b40:	ff 25 1c 0b 05 08    	jmp    DWORD PTR ds:0x8050b1c
+ 8048b46:	68 f0 00 00 00       	push   0xf0
+ 8048b4b:	e9 00 fe ff ff       	jmp    8048950 <_init+0x34>

