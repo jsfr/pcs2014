@@ -2,20 +2,14 @@
 
 all: stack-exploit www-exploit
 
-stack-exploit: stack-exploit.c stack-shellcode.h stack-setup.h
+stack-exploit: stack-exploit.c stack-shellcode.h
 	gcc -g -Wall -Werror -o $@ $<
 	#gcc -m32 -g -Wall -Werror -o $@ $<
 
 stack-shellcode.h: stack-shellcode
 	hexdump -v -e '/1 "0x%02X,"' $< >$@
 
-stack-setup.h: stack-setup
-	hexdump -v -e '/1 "0x%02X,"' $< >$@
-
 stack-shellcode: stack-shellcode.asm
-	nasm $<
-
-stack-setup: stack-setup.asm
 	nasm $<
 
 www-exploit: www-exploit.c www-shellcode.h
@@ -29,5 +23,5 @@ www-shellcode: www-shellcode.asm
 	nasm $<
 
 clean:
-	rm -f stack-exploit stack-shellcode.h stack-shellcode stack-setup.h stack-setup
+	rm -f stack-exploit stack-shellcode.h stack-shellcode
 	rm -f www-exploit www-shellcode.h www-shellcode
