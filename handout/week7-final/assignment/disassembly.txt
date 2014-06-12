@@ -1,24 +1,58 @@
 08048fd4 <find_extension>:
+
+; setup stack frame and make room on stack
  8048fd4:   55                      push   ebp
  8048fd5:   89 e5                   mov    ebp,esp
  8048fd7:   83 ec 28                sub    esp,0x28
+
+; [esp+0x4] = 0x2e ('.' in ascii)
  8048fda:   c7 44 24 04 2e 00 00    mov    DWORD PTR [esp+0x4],0x2e
  8048fe1:   00 
+
+; eax = [ebp+0xc] (2nd arg to find_extension)
  8048fe2:   8b 45 0c                mov    eax,DWORD PTR [ebp+0xc]
+
+; [esp] = 2nd arg to find_extension
  8048fe5:   89 04 24                mov    DWORD PTR [esp],eax
+
+; call strrchr(s=2nd arg to find_extension, c='.')
  8048fe8:   e8 f3 fa ff ff          call   8048ae0 <strrchr@plt>
+
+; [ebp-0xc] = last occurence of '.' in string at 2nd arg to find_extension
  8048fed:   89 45 f4                mov    DWORD PTR [ebp-0xc],eax
+
+; if [ebp-0xc] != 0x0 goto FOUND_EXTENSION
  8048ff0:   83 7d f4 00             cmp    DWORD PTR [ebp-0xc],0x0
  8048ff4:   75 07                   jne    8048ffd <find_extension+0x29>
+
+; eax = -1
  8048ff6:   b8 ff ff ff ff          mov    eax,0xffffffff
+
+; goto EXIT
  8048ffb:   eb 1a                   jmp    8049017 <find_extension+0x43>
+
+; LABEL: FOUND_EXTENSION
+; eax = [ebp-0xc] + 1
  8048ffd:   8b 45 f4                mov    eax,DWORD PTR [ebp-0xc]
  8049000:   83 c0 01                add    eax,0x1
+
+; [esp+0x4] = [ebp-0xc] + 1
  8049003:   89 44 24 04             mov    DWORD PTR [esp+0x4],eax
+
+; eax = [ebp+0x8] (1st arg to find_extension)
  8049007:   8b 45 08                mov    eax,DWORD PTR [ebp+0x8]
+
+; [esp] = 1st arg to find_extension
  804900a:   89 04 24                mov    DWORD PTR [esp],eax
+
+; call strcpy(dest=1st arg to find_extension, src=[ebp-0xc] + 1)
  804900d:   e8 de f9 ff ff          call   80489f0 <strcpy@plt>
+
+; eax = 0
  8049012:   b8 00 00 00 00          mov    eax,0x0
+ 
+; LABEL: EXIT
+; reestablish ebp and return
  8049017:   c9                      leave  
  8049018:   c3                      ret    
 
@@ -31,14 +65,14 @@
  804901a:   89 e5                   mov    ebp,esp
  804901c:   83 ec 48                sub    esp,0x48
 
-; eax = 2nd arg to function
+; eax = 2nd arg to img_read
  804901f:   8b 45 0c                mov    eax,DWORD PTR [ebp+0xc]
  8049022:   8b 00                   mov    eax,DWORD PTR [eax]
 
 ; [ebp-0x10] = 2nd arg
  8049024:   89 45 f0                mov    DWORD PTR [ebp-0x10],eax
 
-; if [ebp-0x10] == 0x0 goto LABEL1
+; if [ebp-0x10] == 0x0 goto ERROR_USAGE
  8049027:   83 7d f0 00             cmp    DWORD PTR [ebp-0x10],0x0
  804902b:   74 0a                   je     8049037 <img_read+0x1e>
 
@@ -50,7 +84,7 @@
  8049033:   3c 2d                   cmp    al,0x2d
  8049035:   75 2f                   jne    8049066 <img_read+0x4d>
  
-; LABEL: LABEL1
+; LABEL: ERROR_USAGE
 ; eax = stderr
  8049037:   a1 40 0b 05 08          mov    eax,ds:0x8050b40
 
@@ -65,163 +99,416 @@
  8049048:   c7 44 24 04 01 00 00    mov    DWORD PTR [esp+0x4],0x1
  804904f:   00 
 
-; [esp] = "Usage-text"
+; [esp] = "Usage: ..."
  8049050:   c7 04 24 08 e3 04 08    mov    DWORD PTR [esp],0x804e308
 
 ; call fwrite(ptr="Usage-text", size=0x1, nmemb=0x16, stream=stderr)
  8049057:   e8 84 f9 ff ff          call   80489e0 <fwrite@plt>
 
-; eax = 0xffffffff
+; eax = -1
  804905c:   b8 ff ff ff ff          mov    eax,0xffffffff
 
-; goto LABEL3
+; goto EXIT
  8049061:   e9 1d 02 00 00          jmp    8049283 <img_read+0x26a>
 
 ; LABEL: LABEL2
+; [esp] = 0xc
  8049066:   c7 04 24 0c 00 00 00    mov    DWORD PTR [esp],0xc
+
+; call malloc(size=0xc)
  804906d:   e8 3d 3f 00 00          call   804cfaf <malloc>
+
+; edx = pointer to malloc'd mem (size=0xc)
  8049072:   89 c2                   mov    edx,eax
+
+; eax = 1st arg to img_read
  8049074:   8b 45 08                mov    eax,DWORD PTR [ebp+0x8]
+
+; put pointer to mem in at address of 1st arg
  8049077:   89 10                   mov    DWORD PTR [eax],edx
+
+; eax = 1st arg to img_read
  8049079:   8b 45 08                mov    eax,DWORD PTR [ebp+0x8]
+
+; eax = value at eax
  804907c:   8b 00                   mov    eax,DWORD PTR [eax]
+
+; if eax != 0x0 goto MALLOC_SUCCEEDED_1
  804907e:   85 c0                   test   eax,eax
  8049080:   75 16                   jne    8049098 <img_read+0x7f>
+
+; [esp] = "malloc() failed"
  8049082:   c7 04 24 f8 e2 04 08    mov    DWORD PTR [esp],0x804e2f8
+
+; call perror(s="malloc() failed")
  8049089:   e8 42 f9 ff ff          call   80489d0 <perror@plt>
+
+; eax = -1
  804908e:   b8 ff ff ff ff          mov    eax,0xffffffff
+
+; goto EXIT
  8049093:   e9 eb 01 00 00          jmp    8049283 <img_read+0x26a>
+
+; LABEL: MALLOC_SUCCEEDED_1
+; eax = [ebp-0x10]
  8049098:   8b 45 f0                mov    eax,DWORD PTR [ebp-0x10]
+
+; [esp+0x4] = [ebp-0x10]
  804909b:   89 44 24 04             mov    DWORD PTR [esp+0x4],eax
+
+; [esp] = var_filename (0x8050d70)
  804909f:   c7 04 24 70 0d 05 08    mov    DWORD PTR [esp],0x8050d70
+
+; call strcpy(dest=var_filename, src=[ebp-0x10])
  80490a6:   e8 45 f9 ff ff          call   80489f0 <strcpy@plt>
+
+; [esp+0x4] = var_filename
  80490ab:   c7 44 24 04 70 0d 05    mov    DWORD PTR [esp+0x4],0x8050d70
  80490b2:   08 
+
+; eax = address at [ebp-0x30] + 4
  80490b3:   8d 45 d0                lea    eax,[ebp-0x30]
  80490b6:   83 c0 04                add    eax,0x4
+
+; [esp] = address at [ebp-0x30] + 4
  80490b9:   89 04 24                mov    DWORD PTR [esp],eax
+
+; call find_extension(address at [ebp-0x30] + 4, var_filename)
  80490bc:   e8 13 ff ff ff          call   8048fd4 <find_extension>
+
+; if eax == 0 goto FOUND_EXTENSION
  80490c1:   85 c0                   test   eax,eax
  80490c3:   74 18                   je     80490dd <img_read+0xc4>
+
+; eax = err
  80490c5:   a1 28 0b 05 08          mov    eax,ds:0x8050b28
+
+; [esp] = "Unable to find file extension!"
  80490ca:   c7 04 24 20 e3 04 08    mov    DWORD PTR [esp],0x804e320
+
+; call err(eval=???, fmt="Unable to find file extension!")
  80490d1:   ff d0                   call   eax
+
+; eax = -1
  80490d3:   b8 ff ff ff ff          mov    eax,0xffffffff
+
+; goto EXIT
  80490d8:   e9 a6 01 00 00          jmp    8049283 <img_read+0x26a>
+
+; LABEL: FOUND_EXTENSION
+; [esp+0x4] = "bmp"
  80490dd:   c7 44 24 04 40 e3 04    mov    DWORD PTR [esp+0x4],0x804e340
  80490e4:   08 
+
+; eax = address at [ebp-0x30] + 4
  80490e5:   8d 45 d0                lea    eax,[ebp-0x30]
  80490e8:   83 c0 04                add    eax,0x4
+
+; [esp] = address at [ebp-0x30] + 4
  80490eb:   89 04 24                mov    DWORD PTR [esp],eax
+
+; call strcasecmp(s1=address at [ebp-0x30] + 4, s2="bmp")
  80490ee:   e8 9d f9 ff ff          call   8048a90 <strcasecmp@plt>
+
+; if eax == 0 goto KNOWN_EXTENSION
  80490f3:   85 c0                   test   eax,eax
  80490f5:   74 18                   je     804910f <img_read+0xf6>
+
+; eax = err
  80490f7:   a1 28 0b 05 08          mov    eax,ds:0x8050b28
+
+; [esp] = "Unknown file extension!"
  80490fc:   c7 04 24 44 e3 04 08    mov    DWORD PTR [esp],0x804e344
+
+; call err(eval=???, fmt="Unknown file extension!")
  8049103:   ff d0                   call   eax
+
+; eax = -1
  8049105:   b8 ff ff ff ff          mov    eax,0xffffffff
+
+; goto EXIT
  804910a:   e9 74 01 00 00          jmp    8049283 <img_read+0x26a>
+ 
+; LABEL: KNOWN_EXTENSION
+; [esp+0x4] = 0x0
  804910f:   c7 44 24 04 00 00 00    mov    DWORD PTR [esp+0x4],0x0
  8049116:   00 
+
+; [esp] = var_filename
  8049117:   c7 04 24 70 0d 05 08    mov    DWORD PTR [esp],0x8050d70
+
+; call open(path=var_filename, oflag=0x0)
  804911e:   e8 fd f8 ff ff          call   8048a20 <open@plt>
+
+; [ebp-0x14] = fd (file descriptor)
  8049123:   89 45 ec                mov    DWORD PTR [ebp-0x14],eax
+
+; if fd > 0 goto OPEN_SUCCEEDED
  8049126:   83 7d ec 00             cmp    DWORD PTR [ebp-0x14],0x0
  804912a:   79 16                   jns    8049142 <img_read+0x129>
+
+; [esp] = "open() failed"
  804912c:   c7 04 24 5d e3 04 08    mov    DWORD PTR [esp],0x804e35d
+
+; call perror(s="open() failed")
  8049133:   e8 98 f8 ff ff          call   80489d0 <perror@plt>
+
+; eax = -1
  8049138:   b8 ff ff ff ff          mov    eax,0xffffffff
+
+; goto EXIT
  804913d:   e9 41 01 00 00          jmp    8049283 <img_read+0x26a>
+ 
+; LABEL: OPEN_SUCCEEDED
+; [esp+0x8] = 0xe
  8049142:   c7 44 24 08 0e 00 00    mov    DWORD PTR [esp+0x8],0xe
  8049149:   00 
+
+; eax = address at [ebp-0x26]
  804914a:   8d 45 da                lea    eax,[ebp-0x26]
+
+; [esp+0x4] = address at [ebp-0x26]
  804914d:   89 44 24 04             mov    DWORD PTR [esp+0x4],eax
+
+; eax = [ebp-0x14]
  8049151:   8b 45 ec                mov    eax,DWORD PTR [ebp-0x14]
+
+; [esp] = [ebp-0x14]
  8049154:   89 04 24                mov    DWORD PTR [esp],eax
+
+; call read(fd=[ebp-0x14], buf=adress at [ebp-0x26], count=0xe)
  8049157:   e8 14 f8 ff ff          call   8048970 <read@plt>
+
+; if eax > 0 goto LABEL8READ_SUCCEEDED
  804915c:   85 c0                   test   eax,eax
  804915e:   79 16                   jns    8049176 <img_read+0x15d>
+
+; [esp] = "read() failed"
  8049160:   c7 04 24 6b e3 04 08    mov    DWORD PTR [esp],0x804e36b
+
+; call perror(s="read() failed")
  8049167:   e8 64 f8 ff ff          call   80489d0 <perror@plt>
+
+; eax = -1
  804916c:   b8 ff ff ff ff          mov    eax,0xffffffff
+
+; goto EXIT
  8049171:   e9 0d 01 00 00          jmp    8049283 <img_read+0x26a>
+
+; LABEL: READ_SUCCEEDED
+; eax = [ebp-0x26] (zero-extended)
  8049176:   0f b6 45 da             movzx  eax,BYTE PTR [ebp-0x26]
+
+; if al != 0x42 (capital B in ascii) goto INVALID_BMP
  804917a:   3c 42                   cmp    al,0x42
  804917c:   75 08                   jne    8049186 <img_read+0x16d>
+
+; eax = [ebp-0x25] (zero-extended)
  804917e:   0f b6 45 db             movzx  eax,BYTE PTR [ebp-0x25]
+
+; if al == 0x4d (capital M in ascii) goto VALID_BMP
  8049182:   3c 4d                   cmp    al,0x4d
  8049184:   74 18                   je     804919e <img_read+0x185>
+ 
+; LABEL: INVALID_BMP
+; eax = err
  8049186:   a1 28 0b 05 08          mov    eax,ds:0x8050b28
+
+; [esp] = "Not a BMP file!"
  804918b:   c7 04 24 79 e3 04 08    mov    DWORD PTR [esp],0x804e379
+
+; call err(eval=???, fmt="Not a BMP file!")
  8049192:   ff d0                   call   eax
+
+; eax = -1
  8049194:   b8 ff ff ff ff          mov    eax,0xffffffff
+
+; goto EXIT
  8049199:   e9 e5 00 00 00          jmp    8049283 <img_read+0x26a>
+ 
+; LABEL: VALID_BMP
+; eax = [ebp-0x24]
  804919e:   8b 45 dc                mov    eax,DWORD PTR [ebp-0x24]
+
+; [esp] = [ebp-0x24] (size of BMP, as specified by BMP)
  80491a1:   89 04 24                mov    DWORD PTR [esp],eax
+
+; call malloc(size=[ebp-0x24])
  80491a4:   e8 06 3e 00 00          call   804cfaf <malloc>
+
+; [ebp-0x18] = address of malloc'd mem (size=[ebp-0x24])
  80491a9:   89 45 e8                mov    DWORD PTR [ebp-0x18],eax
+
+; if a address of malloc'd mem != 0x0 goto MALLOC_SUCCEEDED_2
  80491ac:   83 7d e8 00             cmp    DWORD PTR [ebp-0x18],0x0
  80491b0:   75 16                   jne    80491c8 <img_read+0x1af>
+
+; [esp] = "malloc() failed"
  80491b2:   c7 04 24 f8 e2 04 08    mov    DWORD PTR [esp],0x804e2f8
+
+; call perror(s="malloc() failed")
  80491b9:   e8 12 f8 ff ff          call   80489d0 <perror@plt>
+
+; eax = -1
  80491be:   b8 ff ff ff ff          mov    eax,0xffffffff
+
+; goto EXIT
  80491c3:   e9 bb 00 00 00          jmp    8049283 <img_read+0x26a>
+
+; LABEL: MALLOC_SUCCEEDED_2
+; [esp] = 0x4
  80491c8:   c7 04 24 04 00 00 00    mov    DWORD PTR [esp],0x4
+
+; call malloc(size=0x4)
  80491cf:   e8 db 3d 00 00          call   804cfaf <malloc>
+
+; [esp+0x8] = 0x0
  80491d4:   c7 44 24 08 00 00 00    mov    DWORD PTR [esp+0x8],0x0
  80491db:   00 
+
+; [esp+0x4] = 0x0
  80491dc:   c7 44 24 04 00 00 00    mov    DWORD PTR [esp+0x4],0x0
  80491e3:   00 
+
+; eax = [ebp-0x14]
  80491e4:   8b 45 ec                mov    eax,DWORD PTR [ebp-0x14]
+
+; [esp] = [ebp-0x14]
  80491e7:   89 04 24                mov    DWORD PTR [esp],eax
+
+; call lseek(fildes=[ebp-0x14], offset=0x0, whence=0x0)
  80491ea:   e8 c1 f7 ff ff          call   80489b0 <lseek@plt>
+
+; if eax != -1 goto LSEEK_SUCCEEDED
  80491ef:   83 f8 ff                cmp    eax,0xffffffff
  80491f2:   75 13                   jne    8049207 <img_read+0x1ee>
+
+; [esp] = "lseek failed()"
  80491f4:   c7 04 24 8a e3 04 08    mov    DWORD PTR [esp],0x804e38a
+
+; call perror(s="lseek failed()")
  80491fb:   e8 d0 f7 ff ff          call   80489d0 <perror@plt>
+
+; eax = -1
  8049200:   b8 ff ff ff ff          mov    eax,0xffffffff
+
+; goto EXIT
  8049205:   eb 7c                   jmp    8049283 <img_read+0x26a>
+
+; LABEL: LSEEK_SUCCEEDED
+; eax = [ebp-0x18]
  8049207:   8b 45 e8                mov    eax,DWORD PTR [ebp-0x18]
+
+; [ebp-0xc] = [ebp-0x18]
  804920a:   89 45 f4                mov    DWORD PTR [ebp-0xc],eax
+
+; goto LABEL12
  804920d:   eb 06                   jmp    8049215 <img_read+0x1fc>
+
+; LABEL: IMG_READ_LOOP
+; eax = [ebp-0x30]
  804920f:   8b 45 d0                mov    eax,DWORD PTR [ebp-0x30]
+
+; [ebp-0xc] += [ebp-0x30]
  8049212:   01 45 f4                add    DWORD PTR [ebp-0xc],eax
+ 
+; LABEL: LABEL12
+; [esp+0x8] = 0x1000
  8049215:   c7 44 24 08 00 10 00    mov    DWORD PTR [esp+0x8],0x1000
  804921c:   00 
+
+; eax = [ebp-0xc]
  804921d:   8b 45 f4                mov    eax,DWORD PTR [ebp-0xc]
+
+; [esp+0x4] = [ebp-0xc]
  8049220:   89 44 24 04             mov    DWORD PTR [esp+0x4],eax
+
+; eax = [ebp-0x14]
  8049224:   8b 45 ec                mov    eax,DWORD PTR [ebp-0x14]
+
+; [esp] = [ebp-0x14]
  8049227:   89 04 24                mov    DWORD PTR [esp],eax
+
+; call read(fd=[ebp-0x14], buf=[ebp-0xc], count=0x1000)
  804922a:   e8 41 f7 ff ff          call   8048970 <read@plt>
+
+; [ebp-0x30] = # of bytes read
  804922f:   89 45 d0                mov    DWORD PTR [ebp-0x30],eax
+
+; eax = # of bytes read
  8049232:   8b 45 d0                mov    eax,DWORD PTR [ebp-0x30]
+
+; if # of bytes read > 0 goto IMG_READ_LOOP
  8049235:   85 c0                   test   eax,eax
  8049237:   7f d6                   jg     804920f <img_read+0x1f6>
+
+; eax = [ebp-0x14]
  8049239:   8b 45 ec                mov    eax,DWORD PTR [ebp-0x14]
+
+; [esp] = [ebp-0x14]
  804923c:   89 04 24                mov    DWORD PTR [esp],eax
+
+; call close(fildes=[ebp-0x14])
  804923f:   e8 fc f8 ff ff          call   8048b40 <close@plt>
+
+; eax = [ebp-0x18] + 0xe 
  8049244:   8b 45 e8                mov    eax,DWORD PTR [ebp-0x18]
  8049247:   83 c0 0e                add    eax,0xe
+
+; eax = value at address in eax
  804924a:   8b 00                   mov    eax,DWORD PTR [eax]
+
+; if eax != 0x28 goto LABEL13
  804924c:   83 f8 28                cmp    eax,0x28
  804924f:   75 14                   jne    8049265 <img_read+0x24c>
+
+; eax = [ebp-0x18]
  8049251:   8b 45 e8                mov    eax,DWORD PTR [ebp-0x18]
+
+; [esp+0x4] = [ebp-0x18]
  8049254:   89 44 24 04             mov    DWORD PTR [esp+0x4],eax
+
+; eax = [ebp+0x8]
  8049258:   8b 45 08                mov    eax,DWORD PTR [ebp+0x8]
+
+; [esp] = [ebp+0x8]
  804925b:   89 04 24                mov    DWORD PTR [esp],eax
+
+; call parse_v3([ebp+0x8], [ebp-0x18])
+;    = parse_v3(addr of malloc (size=0xc), addr of malloc (size=[ebp-0x24]))
  804925e:   e8 1d fb ff ff          call   8048d80 <parse_v3>
+
+; goto EXIT
  8049263:   eb 1e                   jmp    8049283 <img_read+0x26a>
+
+; LABEL: LABEL13
+; eax = [ebp-0x18]
  8049265:   8b 45 e8                mov    eax,DWORD PTR [ebp-0x18]
+
+; [esp] = [ebp-0x18]
  8049268:   89 04 24                mov    DWORD PTR [esp],eax
+
+; call free(ptr=[ebp-0x18])
  804926b:   e8 f2 41 00 00          call   804d462 <free>
+
+; eax = err
  8049270:   a1 28 0b 05 08          mov    eax,ds:0x8050b28
+
+; [esp] = "Unknown BMP version!"
  8049275:   c7 04 24 99 e3 04 08    mov    DWORD PTR [esp],0x804e399
+
+; call err(eval=???, fmt="Unknown BMP version!")
  804927c:   ff d0                   call   eax
+
+; eax = -1
  804927e:   b8 ff ff ff ff          mov    eax,0xffffffff
 
-; LABEL: LABEL3
+; LABEL: EXIT
+; re-establish ebp and return
  8049283:   c9                      leave  
- 8049284:   c3                      ret    
+ 8049284:   c3                      ret
+
+; nops
  8049285:   90                      nop
  8049286:   90                      nop
  8049287:   90                      nop
