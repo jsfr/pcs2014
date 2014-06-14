@@ -1,5 +1,0 @@
-break *0x8048d65
-break *0x8048d72
-break *0x804926b
-break *0x804982f
-break *0x8049e32

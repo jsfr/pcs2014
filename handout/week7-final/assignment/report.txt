@@ -26,7 +26,7 @@ Heap exploit
 As the heap exploit also uses <img_read> the commented disassembly is the same
 as in the stack exploit, and can thus be found in 'disassembly.txt'.
 
-The overflow happens in <img_read> ...
+The overflow happens in <img_read>, when a special BMP file is given. The file used in the exploit contains 1 pixel (the size does not really matter and thus I just used the smallest possible), and as such has a size in the header specified to 0x3A = 58 bytes. When <img_read> loads the image into memory, it uses this header field to decide how many bytes should be allocated, and thus because we use dlmalloc, 64 bytes will be allocated.
 
 TODO: Draw heap
 
